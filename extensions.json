@@ -24,16 +24,16 @@
             ]
         },
         {
-            "slug": "cybertoolbox",
+           "slug": "cybertoolbox",
             "id": "toolbox",
             "name": "Cybertoolbox",
             "description": "Put a bunch of things together!",
             "nameTranslations": {
-                "zh-CN": "赛博猫猫的工具箱",
+                "zh-cn": "赛博猫猫的工具箱",
                 "en": "Cyberexplorer's ToolBox"
             },
             "descriptionTranslations": {
-                "zh-CN": "把一堆东西塞到了一起！",
+                "zh-cn": "把一堆东西塞到了一起！",
                 "en": "Put a bunch of things together!"
             },
             "image": "toolbox.png",
