@@ -24,16 +24,16 @@
             ]
         },
         {
-            "slug": "cybertoolbox",
+           "slug": "cybertoolbox",
             "id": "toolbox",
             "name": "Cybertoolbox",
             "description": "Put a bunch of things together!",
             "nameTranslations": {
-                "zh-CN": "赛博猫猫的工具箱",
+                "zh-cn": "赛博猫猫的工具箱",
                 "en": "Cyberexplorer's ToolBox"
             },
             "descriptionTranslations": {
-                "zh-CN": "把一堆东西塞到了一起！",
+                "zh-cn": "把一堆东西塞到了一起！",
                 "en": "Put a bunch of things together!"
             },
             "image": "toolbox.png",
@@ -44,6 +44,29 @@
                 }
             ],
             "docs": false
-        }
+        },
+        {
+           "slug": "QwQAI大模型",
+           "id": "QwQAI大模型",
+           "name": "QwQAI大模型",
+           "description": "与通义千问的QwQ大模型及部分其他AI大模型交互。非官方扩展。",
+           "nameTranslations": {
+
+           },
+           "descriptionTranslations": {
+
+           },
+           "image": "QwQAI大模型.jpg",
+           "by": [
+               {
+                   "name": "zekkei",
+                   "link": "https://vlink.cc/zekkei"
+               }
+           ],
+           "docs": false,
+           "samples": [
+               "QwQAI大模型.sb3"
+           ]
+       }
     ]
 }
