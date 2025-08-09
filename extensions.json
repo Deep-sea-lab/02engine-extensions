@@ -65,8 +65,9 @@
            ],
            "docs": false,
            "samples": [
-               "QwQAI大模型.sb3"
+               "QwQAI大模型"
            ]
        }
     ]
+
 }
