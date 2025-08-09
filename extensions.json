@@ -88,8 +88,31 @@
             "samples": [
                 "小金鱼的屏蔽词"
             ]
-        }
+        },
+        {
+           "slug": "本地数据库",
+           "id": "本地数据库",
+           "name": "本地数据库",
+           "description": "更好地将数据储存在本地，与[本地储存]扩展不冲突。（即可储存同名数据而不冲突）",
+           "nameTranslations": {
+           },
+           "descriptionTranslations": {
+               
+           },
+           "image": "本地数据库.jpg",
+           "by": [
+               {
+                   "name": "zekkei",
+                   "link": "https://vlink.cc/zekkei"
+               }
+           ],
+           "docs": false,
+           "samples": [
+               "本地数据库"
+           ]
+       }
     ]
 
 }
+
 
