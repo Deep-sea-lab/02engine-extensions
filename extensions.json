@@ -67,7 +67,29 @@
            "samples": [
                "QwQAI大模型"
            ]
-       }
+       },
+         {
+            "slug": "小金鱼的屏蔽词",
+            "id": "小金鱼的屏蔽词",
+            "name": "小金鱼的屏蔽词",
+            "description": "小金鱼编写的屏蔽词扩展，可以应用于聊天软件中。",
+            "nameTranslations": {
+            },
+            "descriptionTranslations": {
+            },
+            "image": "小金鱼的屏蔽词.png",
+            "by": [
+                {
+                    "name": "小金鱼",
+                    "link": "https://space.bilibili.com/702559170"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "小金鱼的屏蔽词"
+            ]
+        }
     ]
 
 }
+
