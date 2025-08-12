@@ -110,9 +110,27 @@
            "samples": [
                "本地数据库"
            ]
-       }
+       },
+        {
+             "slug": "孔明的模糊",
+            "id": "kmBlur",
+            "name": "孔明的模糊",
+            "description": "直接设定个体角色的模糊程度，支持缓存，更加简易、实用。",
+            "image": "孔明的模糊.png",
+            "by":[
+                {
+                    "name":"孔明",
+                    "link":"https://space.bilibili.com/3493289367964051?spm_id_from=333.1007.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "孔明的模糊"
+            ]
+        }
     ]
 
 }
+
 
 
