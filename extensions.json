@@ -127,10 +127,25 @@
             "samples": [
                 "孔明的模糊"
             ]
+        },
+        {
+            "slug": "海云",
+            "id": "海云",
+            "name": "海云",
+            "description": "一个简单易用的的SCOS账户管理工具",
+            "image": "海云.png",
+            "by":[
+                {
+                    "name":"深海",
+                    "link":"https://www.deep-sea.filegear-sg.me"
+                }
+            ],
+            "docs": true
         }
     ]
 
 }
+
 
 
 
