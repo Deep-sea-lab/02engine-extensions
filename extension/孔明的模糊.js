@@ -36,6 +36,21 @@
 36  *                   佛祖保佑，永无BUG!
 37 */
 
+//AGPL协议
+
+/**
+ * Scratch 扩展：kmsBlur
+ * 版权所有 © 2025 诸葛孔明
+ *
+ * 本程序是自由软件：你可以根据自由软件基金会发布的 GNU Affero 通用公共许可证第三版，
+ * 或（由你选择）任何更新版本的规定，重新发布和/或修改本程序。
+ *
+ * 本程序发布的目的是希望它有用，但不作任何担保；甚至没有适销性或特定用途适用性的暗示担保。
+ * 更多详情请参见 GNU Affero 通用公共许可证。
+ *
+ * 你应当已经随本程序收到了一份 GNU Affero 通用公共许可证副本。
+ * 如果没有，请访问 <https://www.gnu.org/licenses/>.
+ */
 
 (function(sc){
     let vm = sc.vm
@@ -45,11 +60,11 @@
     let setup = {
         'zh-cn': {
             'YouCanUseTheExtensionsOnTheStage':'你可以在舞台上使用该扩展！',
-            'Kong ming \'s Blur': '孔明的模糊',
+            'Kong ming \'s Blur': '孔明の模糊',
             'setBlur': '为我设定[blur]级模糊的[costume]号造型 [cache]缓存',
             'addBlur':'为我增加[blur]级模糊 [cache]缓存',
             'getBlur':'获取我的模糊值',
-            'blurTips':'提示：模糊值只能在运行时获取或增加！',
+            'blurTips':'提示：模糊值只能在同一个线程中获取和增加！',
             'setCacheForEach': '为[costume]号造型预生成[blurFrom]-[blurTo]级模糊缓存',
             'restoreBlur':'恢复造型',
             'cache_yes': '使用缓存',
@@ -62,7 +77,7 @@
             'setBlur': 'Set [costume] number of blur for me [blur] level [cache]',
             'addBlur':'Add [blur] level blur [cache]',
             'getBlur':'Get my blur value',
-            'blurTips':'Tips: blur value can only be obtained or added during runtime!',
+            'blurTips':'Tips: blur value can only be obtained and added in the same thread!',
             'setCacheForEach': 'Pre-generate blur cache [blurFrom]-[blurTo] for costume [costume]',
             'restoreBlur':'Restore costume',
             'cache_yes': 'use cache',
@@ -90,7 +105,7 @@
         }
         getInfo() {
             return {
-                id: 'kmBlur',
+                id: 'kmsBlur',
                 name:translate('Kong ming \'s Blur'),
                 color1:'#668cff',
                 color2:'#3d6dff',
@@ -200,8 +215,8 @@
         setBlur(args,util){
             let skin = this.SetBlur_(args,util)
             let {thread} = util
-            if(!thread.variables) thread.variables = Object.create(null)
-            thread.variables = {
+            if(!thread.blur) thread.blur = Object.create(null)
+            thread.blur = {
                 blur:args.blur,
                 costume:args.costume
             }
@@ -212,14 +227,14 @@
             let blurValue = this.getBlur(args,util) || 0
             blurValue += args.blur 
             console.log(blurValue)
-            this.setBlur({costume:util.thread.variables.costume || 1,blur:blurValue,cache:args.cache},util)
+            this.setBlur({costume:util.thread.blur.costume || 1,blur:blurValue,cache:args.cache},util)
             console.log(util)
         }
         getBlur(args,util){
             try{
-                return util.thread.variables.blur
+                return util.thread.blur.blur
             }catch{
-                util.thread.variables = {
+                util.thread.blur = {
                     blur:0,
                     costume:1
                 }
@@ -304,8 +319,9 @@
                 runtime.renderer.updateDrawableSkinId(target.drawableID, target.sprite.costumes_[target.currentCostume].skinId)
                 runtime.requestRedraw()
             }
-            util.thread.variables.blur = 0
-            if(!util.thread.variables.costume) util.thread.variables.costume = 1
+            if(!util.thread.blur) util.thread.blur = {}
+            util.thread.blur.blur = 0
+            if(!util.thread.blur.costume) util.thread.blur.costume = 1
         }
     }
     sc.extensions.register(new temp())
