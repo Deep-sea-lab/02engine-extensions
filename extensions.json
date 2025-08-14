@@ -158,10 +158,31 @@
             "samples": [
                 "补间 Plus"
             ]
-        }
+        },
+        {
+           "slug": "JavaScript",
+           "id": "JavaScript",
+           "name": "JavaScript",
+           "description": "运行JavaScript。",
+           "nameTranslations": {
+           },
+           "descriptionTranslations": {
+           },
+           "image": "JavaScript.jpg",
+           "by": [
+               {
+                   "name": "zekkei",
+                   "link": "https://vlink.cc/zekkei"
+               }
+           ],
+           "docs": false,
+           "samples": [
+           ]
+       }
     ]
 
 }
+
 
 
 
