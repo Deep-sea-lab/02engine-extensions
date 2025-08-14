@@ -35,7 +35,7 @@
     function translate() {
         return setup[sc.translate.language]
             ? (setup[sc.translate.language][arguments[0]] || setup.en[arguments[0]])
-            : (setup.en[arguments[0]])
+            : (sc.translate.language == 'zh-tw'? setup['zh-cn'][arguments[0]] : setup.en[arguments[0]])
     }
     class temp {
         constructor() {
