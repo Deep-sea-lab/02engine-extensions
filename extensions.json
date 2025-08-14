@@ -143,9 +143,9 @@
             "docs": true
         },
         {
-            "slug": "补间+",
+            "slug": "补间 Plus",
             "id": "kmsTween",
-            "name": "补间+",
+            "name": "补间 Plus",
             "description": "计算三次贝塞尔曲线的动画进度和时间，需要一定的Css基础。",
             "image":"补间 Plus.png",
             "by":[
@@ -162,6 +162,7 @@
     ]
 
 }
+
 
 
 
