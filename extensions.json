@@ -158,10 +158,28 @@
             "samples": [
                 "补间 Plus"
             ]
-        }
+        },
+        {
+           "slug": "msj的工具箱",
+           "id": "msj的工具箱",
+           "name": "msj的工具箱",
+           "description": "包含和网络、文件处理、文件下载和计算有关的实用工具，但还在测试阶段",
+           "image": "msj的工具箱.png",
+           "by": [
+               {
+                   "name": "玩MC的Sc俊杰",
+                   "link": "https://b23.tv/F2Ut3hr"
+               }
+           ],
+           "docs": false,
+           "samples": [
+               "msj的工具箱"
+           ]
+       }
     ]
 
 }
+
 
 
 
