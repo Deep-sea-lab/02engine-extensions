@@ -163,9 +163,7 @@
             "slug": "LM Studio AI",
             "id": "LM Studio AI",
             "name": "LM Studio AI",
-            "description": "通过LM Studio接入你的本地AI大模型",
-            "nameTranslations": {},
-            "descriptionTranslations": {},
+            "description": "通过LM Studio接入你的本地AI大模型"
             "image": "LM Studio AI.png",
             "by": [
                 {
@@ -173,13 +171,12 @@
                     "link": "https://space.bilibili.com/395614281"
                 }
             ],
-            "docs": false,
-            "samples": [
-            ]
+            "docs": false
         }
     ]
 
 }
+
 
 
 
