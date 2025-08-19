@@ -327,4 +327,4 @@
     }
     
     Scratch.extensions.register(new JWTExtension());
-})(window.Scratch);
+})(Scratch);
