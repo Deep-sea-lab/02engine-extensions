@@ -325,7 +325,7 @@
         const scriptCode = await response.text();
 
         // 在模拟的window环境中执行脚本
-        dom.window.eval(scriptCode);
+        eval(scriptCode);
         console.log('load jsrsasign');
         }
         fetchkjur();
