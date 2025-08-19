@@ -3,7 +3,6 @@
 // 扩展名称: JWT工具
 // 描述: JWT加密、解密和验证功能
 // 版本: 1.0.0
-// 作者: AI助手
 
 (function(Scratch) {
     'use strict';
@@ -318,6 +317,7 @@
     
     // 检查是否已加载jsrsasign库，如果没有则动态加载
     if (typeof KJUR === 'undefined') {
+        async function fetchkjur(){
         const response = await fetch('https://cdn.jsdelivr.net/npm/jsrsasign@10.5.4/lib/jsrsasign-all-min.js');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -327,6 +327,8 @@
         // 在模拟的window环境中执行脚本
         dom.window.eval(scriptCode);
         console.log('load jsrsasign');
+        }
+        fetchkjur();
         /*
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/jsrsasign@10.5.4/lib/jsrsasign-all-min.js';
