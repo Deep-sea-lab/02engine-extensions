@@ -318,12 +318,22 @@
     
     // 检查是否已加载jsrsasign库，如果没有则动态加载
     if (typeof KJUR === 'undefined') {
+        const response = await fetch('https://cdn.jsdelivr.net/npm/jsrsasign@10.5.4/lib/jsrsasign-all-min.js');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const scriptCode = await response.text();
+
+        // 在模拟的window环境中执行脚本
+        dom.window.eval(scriptCode);
+        console.log('load jsrsasign');
+        /*
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/jsrsasign@10.5.4/lib/jsrsasign-all-min.js';
         script.onload = function() {
             console.log('jsrsasign库加载完成');
         };
-        document.head.appendChild(script);
+        document.head.appendChild(script);*/
     }
     
     Scratch.extensions.register(new JWTExtension());
