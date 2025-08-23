@@ -289,6 +289,8 @@
                 try {
                     headers = JSON.parse(Cast.toString(headers));
                 } catch (e) {
+
+
                     return `Error: ${e.message}`;
                 }
             }
@@ -337,14 +339,22 @@
                         this.requests[ID].response += decoder.decode(value, { stream: true });
                     }
                 }
-                
-                return this.requests[ID].response;
+                const tempresp=this.requests[ID].response;
+                if (this.requests[ID]) {
+                    this.requests[ID].controller.abort();
+                    delete this.requests[ID];
+                    }
+                return tempresp;
             } catch (error) {
                 if (error.name === 'AbortError') {
                     this.requests[ID].error = 'Fetch aborted';
                 } else {
                     this.requests[ID].error = error.message;
                 }
+                if (this.requests[ID]) {
+                    this.requests[ID].controller.abort();
+                    delete this.requests[ID];
+                    }
                 return `Error: ${error.message}`;
             }
         }
