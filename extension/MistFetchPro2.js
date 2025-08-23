@@ -210,9 +210,12 @@
                 return '';
             }
 
+            let parsedHeaders = {};
+            let parsedBody = null;
+
             if (headers) {
                 try {
-                    headers = JSON.parse(Cast.toString(headers));
+                    parsedHeaders = JSON.parse(Cast.toString(headers));
                 } catch (e) {
                     return `Error: ${e.message}`;
                 }
@@ -220,14 +223,13 @@
 
             if (body) {
                 try {
-                    body = JSON.parse(Cast.toString(body));
+                    parsedBody = JSON.parse(Cast.toString(body));
                 } catch (e) {
                     return `Error: ${e.message}`;
                 }
             }
 
-            method ??= 'GET';
-            method = Cast.toString(method).toUpperCase();
+            method = method ? Cast.toString(method).toUpperCase() : 'GET';
 
             const controller = new AbortController();
             const signal = controller.signal;
@@ -236,35 +238,25 @@
 
             const fetchOptions = {
                 method: method,
-                headers: headers,
-                body: method !== 'GET' && method !== 'HEAD' ? this.stringify(body) : null,
+                headers: parsedHeaders,
+                body: method !== 'GET' && method !== 'HEAD' ? this.stringify(parsedBody) : null,
                 signal: signal
             };
 
             fetch(URL, fetchOptions)
                 .then(response => {
                     this.requests[ID].status = response.status;
-                    this.requests[ID].contentLength = parseInt(response.headers.get('Content-Length'), 10);
+                    this.requests[ID].contentLength = parseInt(response.headers.get('Content-Length'), 10) || 0;
                     this.requests[ID].headers = response.headers;
+                    
+                    // 使用text()方法获取响应内容
                     return response.text();
                 })
-                .then(reader => {
-                    let done = false;
-                    const decoder = new TextDecoder();
-                    const processStream = async () => {
-                        while (!done) {
-                            const { done: doneReading, value } = await reader.read();
-                            if (doneReading) {
-                                done = true;
-                                Scratch.vm.runtime.startHats('mistfetch_whenIdRequestCompleted', { ID: Cast.toString(ID) });
-                                this.requests[ID].completed = true;
-                            } else {
-                                this.requests[ID].totalBytes += value.length;
-                                this.requests[ID].response += decoder.decode(value, { stream: true });
-                            }
-                        }
-                    };
-                    return processStream();
+                .then(text => {
+                    this.requests[ID].response = text;
+                    this.requests[ID].totalBytes = text.length;
+                    this.requests[ID].completed = true;
+                    Scratch.vm.runtime.startHats('mistfetch_whenIdRequestCompleted', { ID: Cast.toString(ID) });
                 })
                 .catch(error => {
                     if (error.name === 'AbortError') {
@@ -272,6 +264,7 @@
                     } else {
                         this.requests[ID].error = error.message;
                     }
+                    this.requests[ID].completed = true;
                 });
         }
 
@@ -285,26 +278,26 @@
                 delete this.requests[ID];
             }
 
+            let parsedHeaders = {};
+            let parsedBody = null;
+
             if (headers) {
                 try {
-                    headers = JSON.parse(Cast.toString(headers));
+                    parsedHeaders = JSON.parse(Cast.toString(headers));
                 } catch (e) {
-
-
                     return `Error: ${e.message}`;
                 }
             }
 
             if (body) {
                 try {
-                    body = JSON.parse(Cast.toString(body));
+                    parsedBody = JSON.parse(Cast.toString(body));
                 } catch (e) {
                     return `Error: ${e.message}`;
                 }
             }
 
-            method ??= 'GET';
-            method = Cast.toString(method).toUpperCase();
+            method = method ? Cast.toString(method).toUpperCase() : 'GET';
 
             const controller = new AbortController();
             const signal = controller.signal;
@@ -313,37 +306,26 @@
 
             const fetchOptions = {
                 method: method,
-                headers: headers,
-                body: method !== 'GET' && method !== 'HEAD' ? this.stringify(body) : null,
+                headers: parsedHeaders,
+                body: method !== 'GET' && method !== 'HEAD' ? this.stringify(parsedBody) : null,
                 signal: signal
             };
 
             try {
                 const response = await fetch(URL, fetchOptions);
                 this.requests[ID].status = response.status;
-                this.requests[ID].contentLength = parseInt(response.headers.get('Content-Length'), 10);
+                this.requests[ID].contentLength = parseInt(response.headers.get('Content-Length'), 10) || 0;
                 this.requests[ID].headers = response.headers;
                 
-                // 读取响应内容
-                const reader = response.text();
-                const decoder = new TextDecoder();
-                let done = false;
+                // 使用text()方法获取响应内容
+                const text = await response.text();
+                this.requests[ID].response = text;
+                this.requests[ID].totalBytes = text.length;
+                this.requests[ID].completed = true;
                 
-                while (!done) {
-                    const { done: doneReading, value } = await reader.read();
-                    if (doneReading) {
-                        done = true;
-                        this.requests[ID].completed = true;
-                    } else {
-                        this.requests[ID].totalBytes += value.length;
-                        this.requests[ID].response += decoder.decode(value, { stream: true });
-                    }
-                }
-                const tempresp=this.requests[ID].response;
-                if (this.requests[ID]) {
-                    this.requests[ID].controller.abort();
-                    delete this.requests[ID];
-                    }
+                // 返回响应内容后删除请求对象
+                const tempresp = this.requests[ID].response;
+                delete this.requests[ID];
                 return tempresp;
             } catch (error) {
                 if (error.name === 'AbortError') {
@@ -351,11 +333,11 @@
                 } else {
                     this.requests[ID].error = error.message;
                 }
-                if (this.requests[ID]) {
-                    this.requests[ID].controller.abort();
-                    delete this.requests[ID];
-                    }
-                return `Error: ${error.message}`;
+                this.requests[ID].completed = true;
+                
+                const errorMsg = `Error: ${error.message}`;
+                delete this.requests[ID];
+                return errorMsg;
             }
         }
 
@@ -389,21 +371,21 @@
             if (this.requests[ID]) {
                 return this.requests[ID].completed;
             }
-            return '';
+            return false;
         }
 
         deleteRequestById({ ID }) {
             ID = Cast.toString(ID)
 
             if (this.requests[ID]) {
-            this.requests[ID].controller.abort();
-            delete this.requests[ID];
+                this.requests[ID].controller.abort();
+                delete this.requests[ID];
             }
         }
 
         deleteAllRequests() {
             for (const ID in this.requests) {
-            this.requests[ID].controller.abort();
+                this.requests[ID].controller.abort();
             }
             this.requests = {};
         }
@@ -442,7 +424,7 @@
                     if (request.contentLength > 0) {
                         return (request.totalBytes / request.contentLength) * 100;
                     }
-                    return 0
+                    return 0;
                 case "STATUS":
                     return request.status ?? 0;
                 case "URL":
@@ -451,7 +433,6 @@
                     return JSON.stringify(request);
                 case "METHOD":
                     return request.method ?? "";
-
             }
             return '';
         }
@@ -459,19 +440,27 @@
         getHeadersById({ ID }) {
             ID = Cast.toString(ID)
 
-            if (!this.requests[ID]) return ''
+            if (!this.requests[ID]) return '';
 
             if (this.requests[ID].error) {
                 return `Error: ${this.requests[ID].error}`;
             }
-            return JSON.stringify(this.requests[ID].headers);
+            
+            // 将Headers对象转换为普通对象
+            const headersObj = {};
+            if (this.requests[ID].headers) {
+                this.requests[ID].headers.forEach((value, key) => {
+                    headersObj[key] = value;
+                });
+            }
+            return JSON.stringify(headersObj);
         }
 
         all() {
-            return JSON.stringify(this.requests)
+            return JSON.stringify(this.requests);
         }
     }
 
     // Register the extension
     Scratch.extensions.register(new MistFetch());
-})(Scratch)
+})(Scratch);
