@@ -246,7 +246,7 @@
                     this.requests[ID].status = response.status;
                     this.requests[ID].contentLength = parseInt(response.headers.get('Content-Length'), 10);
                     this.requests[ID].headers = response.headers;
-                    return response.body.getReader();
+                    return response.text();
                 })
                 .then(reader => {
                     let done = false;
@@ -325,7 +325,7 @@
                 this.requests[ID].headers = response.headers;
                 
                 // 读取响应内容
-                const reader = response.body.getReader();
+                const reader = response.text();
                 const decoder = new TextDecoder();
                 let done = false;
                 
