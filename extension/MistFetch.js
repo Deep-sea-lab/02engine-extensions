@@ -49,6 +49,32 @@
                         }
                     },
                     {
+                        opcode: 'fetchUrlWithIdReporter',
+                        blockType: Scratch.BlockType.REPORTER,
+                        text: '[method] [URL] with ID [ID] headers [headers] body [body] and wait',
+                        arguments: {
+                            URL: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'https://extensions.turbowarp.org/hello.txt'
+                            },
+                            ID: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: 'request1'
+                            },
+                            headers: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: '{}'
+                            },
+                            method: {
+                                menu: "METHODS"
+                            },
+                            body: {
+                                type: Scratch.ArgumentType.STRING,
+                                defaultValue: '{}'
+                            }
+                        }
+                    },
+                    {
                         opcode: 'getBytesById',
                         blockType: Scratch.BlockType.REPORTER,
                         text: 'bytes downloaded for ID [ID]',
@@ -247,6 +273,80 @@
                         this.requests[ID].error = error.message;
                     }
                 });
+        }
+
+        async fetchUrlWithIdReporter({ URL, ID, headers, method, body }) {
+            ID = Cast.toString(ID)
+            URL = Cast.toString(URL)
+
+            // 如果请求已存在，先删除它
+            if (this.requests[ID]) {
+                this.requests[ID].controller.abort();
+                delete this.requests[ID];
+            }
+
+            if (headers) {
+                try {
+                    headers = JSON.parse(Cast.toString(headers));
+                } catch (e) {
+                    return `Error: ${e.message}`;
+                }
+            }
+
+            if (body) {
+                try {
+                    body = JSON.parse(Cast.toString(body));
+                } catch (e) {
+                    return `Error: ${e.message}`;
+                }
+            }
+
+            method ??= 'GET';
+            method = Cast.toString(method).toUpperCase();
+
+            const controller = new AbortController();
+            const signal = controller.signal;
+
+            this.requests[ID] = { totalBytes: 0, response: '', status: 0, completed: false, contentLength: 0, url: URL, controller: controller };
+
+            const fetchOptions = {
+                method: method,
+                headers: headers,
+                body: method !== 'GET' && method !== 'HEAD' ? this.stringify(body) : null,
+                signal: signal
+            };
+
+            try {
+                const response = await fetch(URL, fetchOptions);
+                this.requests[ID].status = response.status;
+                this.requests[ID].contentLength = parseInt(response.headers.get('Content-Length'), 10);
+                this.requests[ID].headers = response.headers;
+                
+                // 读取响应内容
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let done = false;
+                
+                while (!done) {
+                    const { done: doneReading, value } = await reader.read();
+                    if (doneReading) {
+                        done = true;
+                        this.requests[ID].completed = true;
+                    } else {
+                        this.requests[ID].totalBytes += value.length;
+                        this.requests[ID].response += decoder.decode(value, { stream: true });
+                    }
+                }
+                
+                return this.requests[ID].response;
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    this.requests[ID].error = 'Fetch aborted';
+                } else {
+                    this.requests[ID].error = error.message;
+                }
+                return `Error: ${error.message}`;
+            }
         }
 
         getBytesById({ ID }) {
