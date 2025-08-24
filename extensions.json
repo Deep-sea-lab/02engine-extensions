@@ -1,29 +1,6 @@
 {
     "extensions": [
         {
-            "slug": "test",
-            "id": "02enginetest",
-            "name": "02enginetest",
-            "description": "test extension",
-            "nameTranslations": {
-                "zh-cn": "测试02engine"
-            },
-            "descriptionTranslations": {
-                "zh-cn": "测试扩展"
-            },
-            "image": "test.png",
-            "by": [
-                {
-                    "name": "02Studio",
-                    "link": "https://02studio.xyz"
-                }
-            ],
-            "docs": true,
-            "samples": [
-                "test"
-            ]
-        },
-        {
            "slug": "cybertoolbox",
             "id": "toolbox",
             "name": "Cybertoolbox",
@@ -179,6 +156,7 @@
     ]
 
 }
+
 
 
 
