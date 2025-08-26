@@ -23,6 +23,24 @@
             "docs": false
         },
         {
+           "slug": "kylin",
+            "id": "kylin",
+            "name": "kylin",
+            "description": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked.",
+            "descriptionTranslations": {
+                "zh-cn": "Kylin 是业界第一个用于 Scratch (Turbowarp) 的混淆器，允许你 加密 你的项目，来避免它被盗或被破解。",
+                "en": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked."
+            },
+            "image": "kylin.png",
+            "by": [
+                {
+                    "name": "FurryR",
+                    "link": "https://github.com/FurryR"
+                }
+            ],
+            "docs": false
+        },
+        {
            "slug": "QwQAI大模型",
            "id": "QwQAI大模型",
            "name": "QwQAI大模型",
@@ -156,6 +174,7 @@
     ]
 
 }
+
 
 
 
