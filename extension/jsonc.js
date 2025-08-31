@@ -952,6 +952,7 @@
     json_array_delete({ item, json }) {
       try {
         json = JSON.parse(json);
+        item = this._fixInvalidJSONValues(this.json_valid_return(item));
         json.splice(item - 1, 1);
         return JSON.stringify(json);
       } catch {
