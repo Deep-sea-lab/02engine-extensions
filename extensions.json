@@ -170,10 +170,25 @@
            "samples": [
                "msj的工具箱"
            ]
-       }
+        },
+        {
+            "slug": "神经网络",
+            "id": "神经网络",
+            "name": "神经网络",
+            "description": "在02Engine上使用和训练神经网络",
+            "image": "神经网络.jpg",
+            "by":[
+                {
+                    "name":"瓜子",
+                    "link":"https://www.deep-sea.filegear-sg.me"
+                }
+            ],
+            "docs": true
+        },
     ]
 
 }
+
 
 
 
