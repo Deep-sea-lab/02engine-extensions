@@ -127,7 +127,7 @@
             "slug": "海云",
             "id": "海云",
             "name": "海云",
-            "description": "一个简单易用的的SCOS账户管理工具",
+            "description": "在02Engine上为SCOS使用的账户管理工具，化繁为简",
             "image": "海云.png",
             "by":[
                 {
@@ -175,7 +175,7 @@
             "slug": "神经网络",
             "id": "神经网络",
             "name": "神经网络",
-            "description": "在02Engine上使用和训练神经网络",
+            "description": "一个简单易上手的神经网络扩展",
             "image": "神经网络.jpg",
             "by":[
                 {
@@ -188,21 +188,4 @@
     ]
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
