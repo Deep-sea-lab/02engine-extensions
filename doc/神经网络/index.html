@@ -1,0 +1,371 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神经网络扩展积木块详细介绍及使用说明（1.75）</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .author-top {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        h2 {
+            color: #2c3e50;
+            font-size: 20px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+        .block-item {
+            background-color: #f5f9ff;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e1e8ed;
+        }
+        .block-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 15px;
+        }
+        .block-content {
+            margin-bottom: 10px;
+        }
+        .param-label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .param-list {
+            margin-left: 20px;
+            list-style-type: disc;
+        }
+        .param-list li {
+            margin-bottom: 8px;
+        }
+        .note {
+            background-color: #fff8e1;
+            border-left: 4px solid #f39c12;
+            padding: 12px 15px;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+            color: #8a6d3b;
+        }
+        .usage-step {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            position: relative;
+        }
+        .usage-step::before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .faq {
+            background-color: #e8f4f8;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 40px;
+            border: 1px solid #bce8f1;
+        }
+        .faq-question {
+            font-weight: bold;
+            color: #1f6dad;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .faq-answer {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="author-top">作者：瓜子</div>
+            <h1>神经网络扩展积木块详细介绍及使用说明（1.72）</h1>
+        </div>
+
+        <!-- 第一部分：积木块详细介绍 -->
+        <h2>一、积木块详细介绍</h2>
+
+        <!-- 积木1：创建神经网络 -->
+        <div class="block-item">
+            <div class="block-title">创建神经网络 输入层:[INPUT] 隐藏层:[HIDDEN] 输出层:[OUTPUT]</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>创建一个包含输入层、隐藏层和输出层的神经网络。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>
+                <ul class="param-list">
+                    <li>INPUT：输入层的神经元数量，默认值为 2。</li>
+                    <li>HIDDEN：隐藏层的神经元数量，默认值为 2。</li>
+                    <li>OUTPUT：输出层的神经元数量，默认值为 1。</li>
+                </ul>
+            </div>
+            <div class="block-content">
+                <span class="param-label">说明：</span>通过设置这三个参数，确定神经网络的基本结构。
+            </div>
+        </div>
+
+        <!-- 积木2：添加层 -->
+        <div class="block-item">
+            <div class="block-title">添加层 神经元数量:[COUNT]</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>向已创建的神经网络中添加一个新的层。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>COUNT 为新添加层的神经元数量，默认值为 2。
+            </div>
+            <div class="block-content">
+                <span class="param-label">说明：</span>添加的层将位于现有网络的最后位置。
+            </div>
+        </div>
+
+        <!-- 积木3：向指定层添加神经元 -->
+        <div class="block-item">
+            <div class="block-title">向第 [LAYER] 层添加神经元</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>向指定的层中添加一个神经元。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>LAYER 为目标层的序号，默认值为 1（注意：层序号从 1 开始计数）。
+            </div>
+            <div class="block-content">
+                <span class="param-label">说明：</span>添加神经元时，会自动调整相关的权重和偏置。
+            </div>
+        </div>
+
+        <!-- 积木4：从指定层删除神经元 -->
+        <div class="block-item">
+            <div class="block-title">从第 [LAYER] 层删除神经元</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>从指定的层中删除一个神经元。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>LAYER 为目标层的序号，默认值为 1。
+            </div>
+            <div class="block-content">
+                <span class="param-label">说明：</span>删除神经元后，相关的权重和偏置也会相应调整。
+            </div>
+        </div>
+
+        <!-- 积木5：设置神经元偏置 -->
+        <div class="block-item">
+            <div class="block-title">设置第 [LAYER] 层第 [NEURON] 个神经元的偏置为 [VALUE]</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>手动设置指定神经元的偏置值。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>
+                <ul class="param-list">
+                    <li>LAYER：目标层的序号，默认值为 1。</li>
+                    <li>NEURON：目标神经元在层中的序号，默认值为 1。</li>
+                    <li>VALUE：要设置的偏置值，默认值为 0。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 积木6：获取神经元偏置 -->
+        <div class="block-item">
+            <div class="block-title">第 [LAYER] 层第 [NEURON] 个神经元的偏置</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>获取指定神经元的偏置值。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>
+                <ul class="param-list">
+                    <li>LAYER：目标层的序号，默认值为 1。</li>
+                    <li>NEURON：目标神经元在层中的序号，默认值为 1。</li>
+                </ul>
+            </div>
+            <div class="block-content">
+                <span class="param-label">输出：</span>返回获取到的偏置值，若无效则返回 “无效”，无网络时返回 “无网络”。
+            </div>
+        </div>
+
+        <!-- 积木7：设置神经元权重 -->
+        <div class="block-item">
+            <div class="block-title">设置第 [LAYER] 层第 [NEURON] 个神经元的第 [WEIGHT] 个权重为 [VALUE]</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>手动设置指定神经元的某个权重值。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>
+                <ul class="param-list">
+                    <li>LAYER：目标层的序号，默认值为 2（权重从第二层开始存在）。</li>
+                    <li>NEURON：目标神经元在层中的序号，默认值为 1。</li>
+                    <li>WEIGHT：权重的序号，默认值为 1。</li>
+                    <li>VALUE：要设置的权重值，默认值为 0。</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 积木8：获取神经元权重 -->
+        <div class="block-item">
+            <div class="block-title">第 [LAYER] 层第 [NEURON] 个神经元的第 [WEIGHT] 个权重</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>获取指定神经元的某个权重值。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>
+                <ul class="param-list">
+                    <li>LAYER：目标层的序号，默认值为 2。</li>
+                    <li>NEURON：目标神经元在层中的序号，默认值为 1。</li>
+                    <li>WEIGHT：权重的序号，默认值为 1。</li>
+                </ul>
+            </div>
+            <div class="block-content">
+                <span class="param-label">输出：</span>返回获取到的权重值，若无效则返回 “无效”，无网络时返回 “无网络”。
+            </div>
+        </div>
+
+        <!-- 积木9：设置学习率 -->
+        <div class="block-item">
+            <div class="block-title">设置学习率为 [RATE]</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>设置神经网络的学习率。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>RATE 为学习率值，默认值为 0.1。
+            </div>
+            <div class="block-content note">
+                <span class="param-label">说明：</span>学习率影响网络训练时参数更新的幅度，合适的学习率有助于网络更好地收敛。
+            </div>
+        </div>
+
+        <!-- 积木10：训练网络 -->
+        <div class="block-item">
+            <div class="block-title">训练网络 输入:[INPUTS] 目标:[TARGETS]</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>使用给定的输入和目标值对网络进行训练。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>
+                <ul class="param-list">
+                    <li>INPUTS：输入数据，以逗号分隔的字符串形式表示，默认值为 “0,0”。</li>
+                    <li>TARGETS：目标输出数据，以逗号分隔的字符串形式表示，默认值为 “0”。</li>
+                </ul>
+            </div>
+            <div class="block-content">
+                <span class="param-label">说明：</span>训练过程中会自动调整网络的权重和偏置，以减小预测值与目标值的误差。
+            </div>
+        </div>
+
+        <!-- 积木11：显示训练可视化 -->
+        <div class="block-item">
+            <div class="block-title">显示训练可视化</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>在浏览器环境中显示训练可视化面板。
+            </div>
+            <div class="block-content">
+                <span class="param-label">说明：</span>面板中会展示误差曲线和网络结构等信息，帮助直观了解训练情况。
+            </div>
+        </div>
+
+        <!-- 积木12：更新训练可视化 -->
+        <div class="block-item">
+            <div class="block-title">更新训练可视化</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>更新训练可视化面板中的内容。
+            </div>
+            <div class="block-content">
+                <span class="param-label">说明：</span>通常在训练后调用，以展示最新的训练状态。
+            </div>
+        </div>
+
+        <!-- 积木13：获取网络输出 -->
+        <div class="block-item">
+            <div class="block-title">网络对输入 [INPUTS] 的输出</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>获取网络对指定输入的输出结果。
+            </div>
+            <div class="block-content">
+                <span class="param-label">参数：</span>INPUTS 为输入数据，以逗号分隔的字符串形式表示，默认值为 “0,0”。
+            </div>
+            <div class="block-content">
+                <span class="param-label">输出：</span>返回网络的输出结果，以逗号分隔的字符串形式表示，若出错则返回 “错误”，无网络时返回空。
+            </div>
+        </div>
+
+        <!-- 积木14：获取网络结构 -->
+        <div class="block-item">
+            <div class="block-title">网络结构</div>
+            <div class="block-content">
+                <span class="param-label">功能：</span>获取当前神经网络的结构信息。
+            </div>
+            <div class="block-content">
+                <span class="param-label">输出：</span>返回各层神经元数量的描述信息，如 “层 1: 2 个神经元；层 2: 2 个神经元”，未创建网络时返回 “未创建网络”。
+            </div>
+        </div>
+
+        <!-- 第二部分：扩展使用说明 -->
+        <h2>二、扩展使用说明</h2>
+
+        <div class="usage-step">
+            <span class="param-label">1. 创建网络：</span>首先使用 “创建神经网络” 积木块，根据实际需求设置输入层、隐藏层和输出层的神经元数量，搭建网络的基本框架。如果需要更复杂的网络结构，可以使用 “添加层” 积木块增加更多的层。
+        </div>
+
+        <div class="usage-step">
+            <span class="param-label">2. 调整网络（可选）：</span>通过 “向第 [LAYER] 层添加神经元” 或 “从第 [LAYER] 层删除神经元” 积木块，对各层的神经元数量进行调整。也可以使用 “设置第 [LAYER] 层第 [NEURON] 个神经元的偏置为 [VALUE]” 和 “设置第 [LAYER] 层第 [NEURON] 个神经元的第 [WEIGHT] 个权重为 [VALUE]” 积木块手动设置偏置和权重。
+        </div>
+
+        <div class="usage-step">
+            <span class="param-label">3. 设置学习率：</span>根据训练需求，使用 “设置学习率为 [RATE]” 积木块设置合适的学习率。
+        </div>
+
+        <div class="usage-step">
+            <span class="param-label">4. 训练网络：</span>准备训练数据，使用 “训练网络” 积木块进行训练。可以多次调用该积木块，通过不同的输入和目标值对网络进行迭代训练。
+        </div>
+
+        <div class="usage-step">
+            <span class="param-label">5. 可视化训练过程（可选）：</span>调用 “显示训练可视化” 积木块打开可视化面板，训练过程中或训练后调用 “更新训练可视化” 积木块，查看误差变化和网络结构等信息，以便评估训练效果。
+        </div>
+
+        <div class="usage-step">
+            <span class="param-label">6. 测试网络：</span>使用 “网络对输入 [INPUTS] 的输出” 积木块，输入测试数据，获取网络的预测输出，检验网络的性能。
+        </div>
+
+        <div class="usage-step">
+            <span class="param-label">7. 查看网络信息：</span>通过 “网络结构” 积木块了解当前网络的结构，通过 “第 [LAYER] 层第 [NEURON] 个神经元的偏置” 和 “第 [LAYER] 层第 [NEURON] 个神经元的第 [WEIGHT] 个权重” 积木块查看网络的具体参数。
+        </div>
+
+        <!-- 常见问题 -->
+        <div class="faq">
+            <div class="faq-question">为什么显示训练可视化积木点击没有用？</div>
+            <div class="faq-answer">桌面端不太稳定，请使用网页端</div>
+        </div>
+    </div>
+
+
+    </body></html>
