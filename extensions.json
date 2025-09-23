@@ -124,14 +124,22 @@
             ]
         },
         {
-            "slug": "海云",
-            "id": "海云",
-            "name": "海云",
-            "description": "在02Engine上为SCOS使用的账户管理工具，化繁为简",
-            "image": "海云.png",
+            "slug": "seacloud",
+            "id": "seacloud",
+            "name": "SeaCloud",
+            "description": "Account management tools used for SCOS on 02Engine, simplifying",
+            "nameTranslations": {
+                "zh-cn": "海云",
+                "en": "SeaCloud"
+            },
+            "descriptionTranslations": {
+                "zh-cn": "在02Engine上为SCOS使用的账户管理工具，化繁为简",
+                "en": "Account management tools used for SCOS on 02Engine, simplifying"
+            },
+            "image": "seacloud.png",
             "by":[
                 {
-                    "name":"深海",
+                    "name":"Deep-Sea",
                     "link":"https://www.deep-sea.filegear-sg.me"
                 }
             ],
@@ -188,4 +196,5 @@
     ]
 
 }
+
 
