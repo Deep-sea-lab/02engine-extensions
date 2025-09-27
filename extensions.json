@@ -124,14 +124,22 @@
             ]
         },
         {
-            "slug": "海云",
-            "id": "海云",
-            "name": "海云",
-            "description": "一个简单易用的的SCOS账户管理工具",
-            "image": "海云.png",
+            "slug": "seacloud",
+            "id": "seacloud",
+            "name": "SeaCloud",
+            "description": "Account management tools used for SCOS on 02Engine, simplifying",
+            "nameTranslations": {
+                "zh-cn": "海云",
+                "en": "SeaCloud"
+            },
+            "descriptionTranslations": {
+                "zh-cn": "在02Engine上为SCOS使用的账户管理工具，化繁为简",
+                "en": "Account management tools used for SCOS on 02Engine, simplifying"
+            },
+            "image": "seacloud.png",
             "by":[
                 {
-                    "name":"深海",
+                    "name":"Deep-Sea",
                     "link":"https://www.deep-sea.filegear-sg.me"
                 }
             ],
@@ -170,23 +178,38 @@
            "samples": [
                "msj的工具箱"
            ]
-       }
+        },
+        {
+            "slug": "神经网络",
+            "id": "神经网络",
+            "name": "神经网络",
+            "description": "一个简单易上手的神经网络扩展",
+            "image": "神经网络.jpg",
+            "by":[
+                {
+                    "name":"瓜子",
+                    "link":"https://space.bilibili.com/3546667668212509?spm_id_from=333.337.0.0"
+                }
+            ],
+            "docs": true
+        },
+        {
+            "slug": "汐.mec工具箱",
+            "id": "汐.mec工具箱",
+            "name": "汐.mec工具箱",
+            "description": "一个由汐.mec开发的千奇百怪工具箱😈",
+            "image":"汐.mec工具箱.jpg",
+            "by":[
+                {
+                    "name":"汐.mec",
+                    "link":""
+                }
+            ],
+            "docs": false,
+        }
     ]
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
