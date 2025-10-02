@@ -1,7 +1,7 @@
 {
     "extensions": [
         {
-           "slug": "cybertoolbox",
+            "slug": "cybertoolbox",
             "id": "toolbox",
             "name": "Cybertoolbox",
             "description": "Put a bunch of things together!",
@@ -23,7 +23,7 @@
             "docs": false
         },
         {
-           "slug": "kylin",
+            "slug": "kylin",
             "id": "kylin",
             "name": "kylin",
             "description": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked.",
@@ -41,36 +41,38 @@
             "docs": false
         },
         {
-           "slug": "QwQAI大模型",
-           "id": "QwQAI大模型",
-           "name": "QwQAI大模型",
-           "description": "与通义千问的QwQ大模型及部分其他AI大模型交互。非官方扩展。",
-           "nameTranslations": {
+            "slug": "QwQAI大模型",
+            "id": "QwQAI大模型",
+            "name": "QwQAI大模型",
+            "description": "与通义千问的QwQ大模型及部分其他AI大模型交互。非官方扩展。",
+            "nameTranslations": {
 
-           },
-           "descriptionTranslations": {
+            },
+            "descriptionTranslations": {
 
-           },
-           "image": "QwQAI大模型.jpg",
-           "by": [
-               {
-                   "name": "zekkei",
-                   "link": "https://vlink.cc/zekkei"
-               }
-           ],
-           "docs": false,
-           "samples": [
-               "QwQAI大模型"
-           ]
-       },
-         {
+            },
+            "image": "QwQAI大模型.jpg",
+            "by": [
+                {
+                    "name": "zekkei",
+                    "link": "https://vlink.cc/zekkei"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "QwQAI大模型"
+            ]
+        },
+        {
             "slug": "小金鱼的屏蔽词",
             "id": "小金鱼的屏蔽词",
             "name": "小金鱼的屏蔽词",
             "description": "小金鱼编写的屏蔽词扩展，可以应用于聊天软件中。",
             "nameTranslations": {
+
             },
             "descriptionTranslations": {
+
             },
             "image": "小金鱼的屏蔽词.png",
             "by": [
@@ -85,37 +87,38 @@
             ]
         },
         {
-           "slug": "本地数据库",
-           "id": "本地数据库",
-           "name": "本地数据库",
-           "description": "更好地将数据储存在本地，与[本地储存]扩展不冲突。（即可储存同名数据而不冲突）",
-           "nameTranslations": {
-           },
-           "descriptionTranslations": {
-               
-           },
-           "image": "本地数据库.jpg",
-           "by": [
-               {
-                   "name": "zekkei",
-                   "link": "https://vlink.cc/zekkei"
-               }
-           ],
-           "docs": false,
-           "samples": [
-               "本地数据库"
-           ]
-       },
+            "slug": "本地数据库",
+            "id": "本地数据库",
+            "name": "本地数据库",
+            "description": "更好地将数据储存在本地，与[本地储存]扩展不冲突。（即可储存同名数据而不冲突）",
+            "nameTranslations": {
+
+            },
+            "descriptionTranslations": {
+
+            },
+            "image": "本地数据库.jpg",
+            "by": [
+                {
+                    "name": "zekkei",
+                    "link": "https://vlink.cc/zekkei"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "本地数据库"
+            ]
+        },
         {
-             "slug": "孔明的模糊",
+            "slug": "孔明的模糊",
             "id": "kmBlur",
             "name": "孔明的模糊",
             "description": "直接设定个体角色的模糊程度，支持缓存，更加简易、实用。",
             "image": "孔明的模糊.png",
-            "by":[
+            "by": [
                 {
-                    "name":"孔明",
-                    "link":"https://space.bilibili.com/3493289367964051?spm_id_from=333.1007.0.0"
+                    "name": "孔明",
+                    "link": "https://space.bilibili.com/3493289367964051?spm_id_from=333.1007.0.0"
                 }
             ],
             "docs": false,
@@ -137,10 +140,10 @@
                 "en": "Account management tools used for SCOS on 02Engine, simplifying"
             },
             "image": "seacloud.png",
-            "by":[
+            "by": [
                 {
-                    "name":"Deep-Sea",
-                    "link":"https://www.deep-sea.filegear-sg.me"
+                    "name": "Deep-Sea",
+                    "link": "https://www.deep-sea.filegear-sg.me"
                 }
             ],
             "docs": true
@@ -150,11 +153,11 @@
             "id": "kmsTween",
             "name": "补间 Plus",
             "description": "计算三次贝塞尔曲线的动画进度和时间，需要一定的Css基础。",
-            "image":"补间 Plus.png",
-            "by":[
+            "image": "补间 Plus.png",
+            "by": [
                 {
-                    "name":"孔明",
-                    "link":"https://space.bilibili.com/3493289367964051?spm_id_from=333.1007.0.0"
+                    "name": "孔明",
+                    "link": "https://space.bilibili.com/3493289367964051?spm_id_from=333.1007.0.0"
                 }
             ],
             "docs": false,
@@ -163,21 +166,21 @@
             ]
         },
         {
-           "slug": "msj的工具箱",
-           "id": "msj的工具箱",
-           "name": "msj的工具箱",
-           "description": "包含和网络、文件处理、文件下载和计算有关的实用工具，但还在测试阶段",
-           "image": "msj的工具箱.png",
-           "by": [
-               {
-                   "name": "玩MC的Sc俊杰",
-                   "link": "https://b23.tv/F2Ut3hr"
-               }
-           ],
-           "docs": false,
-           "samples": [
-               "msj的工具箱"
-           ]
+            "slug": "msj的工具箱",
+            "id": "msj的工具箱",
+            "name": "msj的工具箱",
+            "description": "包含和网络、文件处理、文件下载和计算有关的实用工具，但还在测试阶段",
+            "image": "msj的工具箱.png",
+            "by": [
+                {
+                    "name": "玩MC的Sc俊杰",
+                    "link": "https://b23.tv/F2Ut3hr"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "msj的工具箱"
+            ]
         },
         {
             "slug": "神经网络",
@@ -185,10 +188,10 @@
             "name": "神经网络",
             "description": "一个简单易上手的神经网络扩展",
             "image": "神经网络.jpg",
-            "by":[
+            "by": [
                 {
-                    "name":"瓜子",
-                    "link":"https://space.bilibili.com/3546667668212509?spm_id_from=333.337.0.0"
+                    "name": "瓜子",
+                    "link": "https://space.bilibili.com/3546667668212509?spm_id_from=333.337.0.0"
                 }
             ],
             "docs": true
@@ -198,53 +201,64 @@
             "id": "汐.mec工具箱",
             "name": "汐.mec工具箱",
             "description": "一个由汐.mec开发的千奇百怪工具箱😈",
-            "image":"汐.mec工具箱.jpg",
-            "by":[
+            "image": "汐.mec工具箱.jpg",
+            "by": [
                 {
-                    "name":"汐.mec",
-                    "link":""
+                    "name": "汐.mec",
+                    "link": ""
                 }
             ],
             "docs": false
         },
         {
- "slug": "texturefix",
- "id": "texturefix",
- "name": "纹理画布",
- "nameTranslations": {
-  "en-us": "Texture Canvas",
-  },
-  "description": "在独立于画笔的画布上更便携地进行图像绘制",
-  "image": "texturefix.png",
-  "descriptionTranslations": {
-   "en-us": "Better conveniently draw rect,images and textures on standalone canvas"
-  },
-  "by": [
-     {"name":"Xbodw","link":"https://space.bilibili.com/1552375363"}
-  ],
-  "docs": "false"
-  "samples": []
-},{
- "slug": "oaa",
- "id": "objectArray",
- "name": "数组和对象",
- "nameTranslations": {
-  "en-us": "Object and Array",
-  },
-  "description": "更完整的JSON对象/数组功能",
-  "image": "test.png",
-  "descriptionTranslations": {
-   "en-us": "Better JSON Features"
-  },
-  "by": [
-     {"name":"Xbodw","link":"https://space.bilibili.com/1552375363"}
-  ],
-  "docs": "false"
-  "samples": []
-}
-    ]
+            "slug": "texturefix",
+            "id": "texturefix",
+            "name": "纹理画布",
+            "nameTranslations": {
+                "en-us": "Texture Canvas"
+            },
+            "description": "在独立于画笔的画布上更便携地进行图像绘制",
+            "image": "texturefix.png",
+            "descriptionTranslations": {
+                "en-us": "Better conveniently draw rect,images and textures on standalone canvas"
+            },
+            "by": [
+                {
+                    "name": "Xbodw",
+                    "link": "https://space.bilibili.com/1552375363"
+                }
+            ],
+            "docs": "false",
+            "samples": [
 
+            ]
+        },
+        {
+            "slug": "oaa",
+            "id": "objectArray",
+            "name": "数组和对象",
+            "nameTranslations": {
+                "en-us": "Object and Array"
+            },
+            "description": "更完整的JSON对象/数组功能",
+            "image": "test.png",
+            "descriptionTranslations": {
+                "en-us": "Better JSON Features"
+            },
+            "by": [
+                {
+                    "name": "Xbodw",
+                    "link": "https://space.bilibili.com/1552375363"
+                }
+            ],
+            "docs": "false",
+            "samples": [
+
+            ]
+        }
+    ]
 }
+
 
 
 
