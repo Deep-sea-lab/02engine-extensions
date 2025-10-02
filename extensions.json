@@ -206,7 +206,42 @@
                 }
             ],
             "docs": false
-        }
+        },
+        {
+ "slug": "texturefix",
+ "id": "texturefix",
+ "name": "纹理画布",
+ "nameTranslations": {
+  "en-us": "Texture Canvas",
+  },
+  "description": "在独立于画笔的画布上更便携地进行图像绘制",
+  "image": "texturefix.png",
+  "descriptionTranslations": {
+   "en-us": "Better conveniently draw rect,images and textures on standalone canvas"
+  },
+  "by": [
+     {"name":"Xbodw","link":"https://space.bilibili.com/1552375363"}
+  ],
+  "docs": "false"
+  "samples": []
+},{
+ "slug": "oaa",
+ "id": "objectArray",
+ "name": "数组和对象",
+ "nameTranslations": {
+  "en-us": "Object and Array",
+  },
+  "description": "更完整的JSON对象/数组功能",
+  "image": "test.png",
+  "descriptionTranslations": {
+   "en-us": "Better JSON Features"
+  },
+  "by": [
+     {"name":"Xbodw","link":"https://space.bilibili.com/1552375363"}
+  ],
+  "docs": "false"
+  "samples": []
+}
     ]
 
 }
