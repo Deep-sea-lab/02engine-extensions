@@ -1,8 +1,79 @@
-class MecsTechnology{
+class XiMecsTechnology{
+    constructor() {
+        // 初始化鼠标事件状态变量
+        this.isDoubleClick = false;
+        this.wheelDirection = null;
+        this.mouseButtons = {
+            left: false,
+            middle: false,
+            right: false
+        };
+        
+        // 双击检测
+        let lastClickTime = 0;
+        document.addEventListener('click', (e) => {
+            const currentTime = new Date().getTime();
+            const timeBetweenClicks = currentTime - lastClickTime;
+            
+            if (timeBetweenClicks < 300 && timeBetweenClicks > 0) {
+                // 双击事件发生
+                this.isDoubleClick = true;
+                
+                // 50毫秒后重置双击状态（避免连续检测到双击）
+                setTimeout(() => {
+                    this.isDoubleClick = false;
+                }, 50);
+            }
+            
+            lastClickTime = currentTime;
+        });
+        
+        // 鼠标滚轮事件
+        document.addEventListener('wheel', (e) => {
+            if (e.deltaY < 0) {
+                this.wheelDirection = 'up';
+            } else {
+                this.wheelDirection = 'down';
+            }
+            
+            // 20毫秒后重置滚轮方向（让Scratch能够检测到这个状态变化）
+            setTimeout(() => {
+                this.wheelDirection = null;
+            }, 20);
+        });
+        
+        // 鼠标按键事件
+        document.addEventListener('mousedown', (e) => {
+            if (e.button === 0) {
+                this.mouseButtons.left = true;
+            } else if (e.button === 1) {
+                this.mouseButtons.middle = true;
+            } else if (e.button === 2) {
+                this.mouseButtons.right = true;
+            }
+        });
+        
+        document.addEventListener('mouseup', (e) => {
+            if (e.button === 0) {
+                this.mouseButtons.left = false;
+            } else if (e.button === 1) {
+                this.mouseButtons.middle = false;
+            } else if (e.button === 2) {
+                this.mouseButtons.right = false;
+            }
+        });
+        
+        // 右键菜单阻止
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+    }
+    //1.0版本
+    
     getInfo() {
         return {
-            id: 'MecsTechnology',
-            name: 'Mec\'sTechnology',
+            id: 'XiMecsTechnology',
+            name: 'Ximec\'s Technology',
             color1: '#00BFFF',
             color2: '#FF00FF',
             blocks: [
@@ -219,7 +290,7 @@ class MecsTechnology{
                 }
                 ,{
                     blockType:'label',
-                    text:'日志'
+                    text:'日志输出'
                 }
                 ,{
                     opcode: 'Log',
@@ -232,14 +303,47 @@ class MecsTechnology{
                         }
                     }
                 },
-                {
+                ,{
+                    blockType:'label',
+                    text:'侦测鼠标'
+                }
+                ,{
+                    opcode:'DoubleClick',
+                    blockType:'Boolean',
+                    text:'双击?'
+                }
+                ,{
+                    opcode:'MouseWheel',
+                    blockType:'Boolean',
+                    text:'鼠标滚轮[direction]?',
+                    arguments:{
+                        direction:{
+                            type:'string',
+                            menu:'directionMenu',
+                            defaultValue:'up'
+                        }
+                    }
+                }
+                ,{
+                    opcode:'LMRClick',
+                    blockType:'Boolean',
+                    text:'按下[button]?',
+                    arguments:{
+                        button:{
+                            type:'string',
+                            menu:'buttonMenu',
+                            defaultValue:'right'
+                        }
+                    }
+                }
+                ,{
                     blockType:'label',
                     text:'弹窗工具'
                 }
                 ,{
                     opcode: 'InformationPopup',
                     blockType: 'command',
-                    text: '弹出信息框,标题[title],内容[content]',
+                    text: '弹出信息框,标题[title],内容[content],按钮文字[buttonText],文字位置[textLocation],文字样式[textStyle]',
                     arguments: {
                         title: {
                             type: 'string',
@@ -248,13 +352,27 @@ class MecsTechnology{
                         content: {
                             type: 'string',
                             defaultValue: '这是一条信息'
+                        },
+                        buttonText: {
+                            type: 'string',
+                            defaultValue: '确认'
+                        },
+                        textLocation: {
+                            type: 'string',
+                            menu: 'textLocationMenu',
+                            defaultValue: 'left'
+                        },
+                        textStyle: {
+                            type: 'string',
+                            menu: 'textStyleMenu',
+                            defaultValue: 'default'
                         }
                     }
                 },
                 {
                     opcode: 'inputPopup',
                     blockType: 'reporter',
-                    text: '弹出输入框,标题[title],内容[content],按钮文字[buttonText],默认值[defaultValue],输入模式[mode],选项1[opt1],选项2[opt2],选项3[opt3],计时[timed],时长[seconds]',
+                    text: '弹出输入框,标题[title],内容[content],按钮文字[buttonText],文字位置[textLocation],文字样式[textStyle],默认值[defaultValue],输入模式[mode],选项1[opt1],选项2[opt2],选项3[opt3],定时关闭[timed],时长[seconds]',
                     arguments: {
                         title: { type: 'string', defaultValue: '提示' },
                         content: { type: 'string', defaultValue: '这是一条信息' },
@@ -273,13 +391,23 @@ class MecsTechnology{
                             menu: 'timedModes', 
                             defaultValue: 'off' 
                         },
-                        seconds: { type: 'number', defaultValue: 10 }
+                        seconds: { type: 'number', defaultValue: 10 },
+                        textLocation: {
+                            type: 'string',
+                            menu: 'textLocationMenu',
+                            defaultValue: 'left'
+                        },
+                        textStyle: {
+                            type: 'string',
+                            menu: 'textStyleMenu',
+                            defaultValue: 'default'
+                        }
                     }
                 }
                 ,{
                     opcode:'ConfirmPopup',
                     blockType:'Boolean',
-                    text:'弹出确认框,标题[title],内容[content]',
+                    text:'弹出确认框,标题[title],内容[content],按钮1文字[buttonText1],按钮2文字[buttonText2],文字位置[textLocation],文字样式[textStyle]',
                     arguments: {
                         title: {
                             type: 'string',
@@ -288,6 +416,24 @@ class MecsTechnology{
                         content: {
                             type: 'string',
                             defaultValue:'这是一个问题'
+                        },
+                        buttonText1: {
+                            type: 'string',
+                            defaultValue: '确认'
+                        },
+                        buttonText2: {
+                            type: 'string',
+                            defaultValue: '取消'
+                        },
+                        textLocation: {
+                            type: 'string',
+                            menu: 'textLocationMenu',
+                            defaultValue: 'left'
+                        },
+                        textStyle: {
+                            type: 'string',
+                            menu: 'textStyleMenu',
+                            defaultValue: 'default'
                         }
                     }
                 },
@@ -311,18 +457,55 @@ class MecsTechnology{
                     text:'当前时间戳'
                 }
                 ,{
+                    opcode:'TimeUnitConversion',
+                    blockType:'reporter',
+                    text:'以[unit1]为单位把[number]转为[unit2]',
+                    arguments:{
+                        number:{
+                            type:'number',
+                            defaultValue:'114514'
+                        },
+                        unit1:{
+                            type:'string',
+                            menu:'unit1Menu',
+                            defaultValue:'timestamp'
+                        },
+                        unit2:{
+                            type:'string',
+                            menu:'unit2Menu',
+                            defaultValue:'minutes'
+                        }
+                    }
+                }
+                ,{
+                    opcode:'TimeStampToFormat',
+                    blockType:'reporter',
+                    text:'时间戳[TimeStamp]转[Format]',
+                    arguments: {
+                        TimeStamp: {
+                            type: 'string',
+                            defaultValue:'114514'
+                        },
+                        Format: {
+                            type:'string',
+                            menu: 'formatMenu',
+                            defaultValue: 'yyyy-MM-dd HH:mm:ss'
+                        }
+                    }
+                }
+                ,{
                     opcode:'TimeDifference',
                     blockType:'reporter',
                     text:'[time]到现在有多少[difference]',
                     arguments: {
                         time: {
                             type: 'string',
-                            defaultValue:'45645546'
+                            defaultValue:'0'
                         },
                         difference: {
                             type:'string',
                             menu: 'differenceMenu',
-                            defaultValue: 'seconds'
+                            defaultValue: 'milliseconds'
                         }
                     }
                 },
@@ -424,6 +607,11 @@ class MecsTechnology{
                     text:'假'
                 }
                 ,{
+                    opcode:'RandomBoolean',
+                    blockType:'Boolean',
+                    text:'随机'
+                }
+                ,{
                     opcode:'NewlineCharacter',
                     blockType:'reporter',
                     text:'换行符'
@@ -437,6 +625,21 @@ class MecsTechnology{
                     blockType:'reporter',
                     text:'生成随机[number]位字符',
                     arguments:{
+                        number:{
+                            type:'number',
+                            defaultValue:8
+                        }
+                    }
+                }
+                ,{
+                    opcode:'RandomCharacterInInputContent',
+                    blockType:'reporter',
+                    text:'从[content]中随机取[number]位字符',
+                    arguments:{
+                        content:{
+                            type:'string',
+                            defaultValue:'114514'
+                        },
                         number:{
                             type:'number',
                             defaultValue:8
@@ -476,6 +679,39 @@ class MecsTechnology{
                     }
                 }
                 ,{
+                    opcode:'ConvertImageToURL',
+                    blockType:'reporter',
+                    text:'将图片[image]转换为[format]格式',
+                    arguments:{
+                        image:{
+                            type:'string',
+                            menu:'imageSources'
+                        },
+                        format:{
+                            type:'string',
+                            menu:'imageFormatMenu'
+                        }
+                    }
+                }
+                ,{
+                    opcode:'IfThenElse',
+                    blockType:'reporter',
+                    text:'如果[condition]则[trueValue]，否则[falseValue]',
+                    arguments:{
+                        condition:{
+                            type:'Boolean'
+                        },
+                        trueValue:{
+                            type:'string',
+                            defaultValue:''
+                        },
+                        falseValue:{
+                            type:'string',
+                            defaultValue:''
+                        }
+                    }
+                }
+                ,{
                     opcode:'TemperatureConvert',
                     blockType:'reporter',
                     text:'将[temperature]从[fromUnit]转换为[toUnit]',
@@ -496,21 +732,7 @@ class MecsTechnology{
                         }
                     }
                 }
-                ,{
-                    opcode:'RandomCharacterInInputContent',
-                    blockType:'reporter',
-                    text:'从[content]中随机取[number]位字符',
-                    arguments:{
-                        content:{
-                            type:'string',
-                            defaultValue:''
-                        },
-                        number:{
-                            type:'number',
-                            defaultValue:8
-                        }
-                    }
-                }
+
                 ,{
                     opcode:'SplitString',
                     blockType:'reporter',
@@ -546,21 +768,6 @@ class MecsTechnology{
                         number2:{
                             type:'number',
                             defaultValue:5
-                        }
-                    }
-                }
-                ,{
-                    opcode:'ConvertImageToURL',
-                    blockType:'reporter',
-                    text:'将图片[image]转换为[format]格式',
-                    arguments:{
-                        image:{
-                            type:'string',
-                            menu:'imageSources'
-                        },
-                        format:{
-                            type:'string',
-                            menu:'imageFormatMenu'
                         }
                     }
                 }
@@ -605,12 +812,12 @@ class MecsTechnology{
                 }
                 ,{
                     blockType:'label',
-                    text:'发送通知'
+                    text:'成就'
                 }
                 ,{
-                    opcode:'SendNotice',
+                    opcode:'ShowAchievement',
                     blockType:'command',
-                    text:'发送通知,图片来源[imageSource],图片[photo],标题[title],内容[content],自动关闭时间[autoCloseTime]秒',
+                    text:'获得成就,图片来源[imageSource],链接[photo],标题[title],内容[content],自动关闭时间[autoCloseTime]秒',
                     //图片为空则不显示图片
                     arguments:{
                         imageSource:{
@@ -637,20 +844,168 @@ class MecsTechnology{
                     }
                 }
                 ,{
-                    opcode:'ShowNoticeColorPicker',
+                    opcode:'ShowAchievementColorPicker',
                     blockType:'command',
-                    text:'设置通知颜色(弹窗选择)'
+                    text:'设置成就颜色(弹窗选择)'
                 }
                 ,{
-                    opcode:'SetNoticeColor',
+                    opcode:'SetAchievementColor',
                     blockType:'command',
-                    text:'设置通知颜色为[color]',
+                    text:'设置成就颜色为[color]',
                     arguments:{
                         color:{
                             type:'string',
                             defaultValue:'#000000'
                         }
                     }
+                }
+                ,{
+                    blockType:'label',
+                    text:'对话框'
+                }
+                ,{
+                    opcode:'ShowDialogFontColorPicker',
+                    blockType:'command',
+                    text:'设置对话框字体颜色(弹窗选择)'
+                }
+                ,{
+                    opcode:'SetDialogFontColor',
+                    blockType:'command',
+                    text:'设置对话框字体颜色为[color]',
+                    arguments:{
+                        color:{
+                            type:'string',
+                            defaultValue:'#000000'
+                        }
+                    }
+                }
+                ,{
+                    opcode:'ShowDialog',
+                    blockType:'command',
+                    text:'显示对话框,显示模式[showMode],文字位置[fontPosition],标题[title],内容[content],对话框位置[position]',
+                    arguments:{
+                        showMode:{
+                            type:'string',
+                            menu:'showModesMenu',
+                            defaultValue:'逐字显示'
+                        },
+                        position:{
+                            type:'string',
+                            menu:'positionMenu',
+                            defaultValue:'top'
+                        },
+                        fontPosition:{
+                            type:'string',
+                            menu:'fontPositionMenu',
+                            defaultValue:'left'
+                        },
+                        title:{
+                            type:'string',
+                            defaultValue:'LittleTechnology'
+                        },
+                        content:{
+                            type:'string',
+                            defaultValue:'消息'
+                        },
+                    }
+                }
+                ,{
+                    blockType:'label',
+                    text:'文件'
+                }
+                ,{                    
+                    opcode:'ReadFile',                    
+                    blockType:'reporter',                    
+                    text:'打开一个文件作为[format1]',                    
+                    arguments:{                        
+                        format1:{                            
+                            type:'string',                            
+                            menu:'format1Menu',                            
+                            defaultValue:'text'                        
+                        }               
+                    }                
+                }
+                ,{                    
+                    opcode:'ReadFileFormat',                    
+                    blockType:'reporter',                    
+                    text:'打开一个格式为[format]的文件作为[format2]',                    
+                    arguments:{                        
+                        format:{                            
+                            type:'string',                            
+                            defaultValue:'.txt'                        
+                        },                        
+                        format2:{                            
+                            type:'string',                            
+                            menu:'format1Menu',                           
+                            defaultValue:'text'                        
+                        }                                 
+                        }                
+                }
+                ,{
+                    opcode:'ClearSelectedFile',
+                    blockType:'command',
+                    text:'清除已选择的文件'
+                }
+                ,{
+                    opcode:'GetFileName',
+                    blockType:'reporter',
+                    text:'文件名'
+                }
+                ,{
+                    opcode:'GetFileFormat',
+                    blockType:'reporter',
+                    text:'文件格式'
+                }
+                ,{
+                    opcode:'GetFileSize',
+                    blockType:'reporter',
+                    text:'文件大小([unit3])',
+                    arguments:{
+                        unit3:{
+                            type:'string',
+                            menu:'unit3Menu',
+                            defaultValue:'byte'
+                        }
+                    }
+                }
+                ,{                    
+                    opcode:'GetLastModifiedTime',                    
+                    blockType:'reporter',                    
+                    text:'最后修改时间'                
+                }                
+                ,{                    
+                    opcode:'IsFileSelected',                    
+                    blockType:'Boolean',                    
+                    text:'已选择文件?'                
+                }
+                ,{
+                    opcode:'WriteFile',
+                    blockType:'command',
+                    text:'保存文件,名为[filePath],内容[content]',
+                    arguments:{
+                        content:{
+                            type:'string',
+                            defaultValue:'内容'
+                        },
+                        filePath:{
+                            type:'string',
+                            defaultValue:'文件路径'
+                        }
+                    }
+                }
+                ,{
+                    blockType:'label',
+                    text:'关于系统'
+                }
+                ,{
+                    opcode:'GetSystemName',
+                    blockType:'reporter',
+                    text:'系统名'
+                }
+                ,{
+                    opcode:'GetBrowserName',
+                    blockType:'reporter',
+                    text:'浏览器名'
                 }
             ],
             menus: {
@@ -727,6 +1082,97 @@ class MecsTechnology{
                     { value: 'decades', text: '世纪' },
                     { value: 'millenia', text: '千年' },
                 ]
+                ,formatMenu: [
+                    { value: 'yyyy-MM-dd HH:mm:ss', text: 'yyyy-MM-dd HH:mm:ss' },
+                    { value: 'yyyy-MM-dd', text: 'yyyy-MM-dd' },
+                    { value: 'HH:mm:ss', text: 'HH:mm:ss' },
+                    { value: 'HH:mm', text: 'HH:mm' },
+                ]
+                ,unit1Menu: [
+                    { value: 'timestamp', text: '时间戳' },
+                    { value: 'milliseconds', text: '毫秒' },
+                    { value: 'seconds', text: '秒' },
+                    { value: 'minutes', text: '分' },
+                    { value: 'hours', text: '时' },
+                    { value: 'days', text: '天' },
+                    { value: 'weeks', text: '周' },
+                    { value: 'months', text:'月' },
+                    { value: 'quarters', text:'季' },
+                    { value: 'years', text: '年' },
+                    { value: 'decades', text: '年代' },
+                    { value: 'decades', text: '世纪' },
+                    { value: 'millenia', text: '千年' },
+                ]
+                ,unit2Menu: [
+                    { value: 'timestamp', text: '时间戳' },
+                    { value: 'milliseconds', text: '毫秒' },
+                    { value: 'seconds', text: '秒' },
+                    { value: 'minutes', text: '分' },
+                    { value: 'hours', text: '时' },
+                    { value: 'days', text: '天' },
+                    { value: 'weeks', text: '周' },
+                    { value: 'months', text:'月' },
+                    { value: 'quarters', text:'季' },
+                    { value: 'years', text: '年' },
+                    { value: 'decades', text: '年代' },
+                    { value: 'decades', text: '世纪' },
+                    { value: 'millenia', text: '千年' },
+                ]
+                ,showModesMenu: [
+                    { value: 'typewriter', text: '逐字显示' },
+                    { value: 'fade', text: '渐变显示' },
+                    { value: 'direct', text: '直接显示' },
+                ],
+                fontPositionMenu: [
+                    { value: 'left', text: '左对齐' },
+                    { value: 'center', text: '居中对齐' },
+                    { value: 'right', text: '右对齐' }
+                ],
+                positionMenu: [
+                    { value: 'top', text: '顶部' },
+                    { value: 'middle', text: '中间' },
+                    { value: 'bottom', text: '底部' },
+                ],
+                textLocationMenu: [
+                    { value: 'left', text: '左对齐' },
+                    { value: 'center', text: '居中对齐' },
+                    { value: 'right', text: '右对齐' }     
+                ],
+                textStyleMenu: [
+                    { value: 'default', text: '默认' },
+                    { value: 'bold', text: '加粗' },
+                    { value: 'italic', text: '斜体' },
+                    { value: 'underline', text: '下划线' },
+                ],
+                unit3Menu: [
+                    { value: 'byte', text: '字节' },
+                    { value: 'B', text: 'B' },
+                    { value: 'KB', text: 'KB' },
+                    { value: 'MB', text: 'MB' },
+                    { value: 'GB', text: 'GB' },
+                    { value: 'TB', text: 'TB' },
+                ],
+                format1Menu: [
+                    { value: 'text', text: '文本' },
+                    { value: 'json', text: 'JSON' },
+                    { value: 'url', text: 'URL' },
+                    { value: 'base64', text: 'Base64' }
+                ],
+                format2Menu: [
+                    { value: 'text', text: '文本' },
+                    { value: 'json', text: 'JSON' },
+                    { value: 'url', text: 'URL' },
+                    { value: 'base64', text: 'Base64' }
+                ],
+                directionMenu: [
+                    { value: 'up', text: '向上' },
+                    { value: 'down', text: '向下' }
+                ],
+                buttonMenu: [
+                    { value: 'left', text: '左键' },
+                    { value: 'middle', text: '中键' },
+                    { value: 'right', text: '右键' }
+                ],
             }
         };
     }
@@ -792,7 +1238,31 @@ class MecsTechnology{
                 
                 return true;
             default:
-                return false;
+                  return false;
+            }
+      }
+      
+    // 文字样式处理函数
+    getTextStyle(style) {
+        switch(style) {
+            case 'bold':
+                return 'font-weight: bold;';
+            case 'italic':
+                return 'font-style: italic;';
+            case 'underline':
+                return 'text-decoration: underline;';
+            case 'big':
+                return 'font-size: 18px;';
+            case 'small':
+                return 'font-size: 12px;';
+            case 'red':
+                return 'color: red;';
+            case 'blue':
+                return 'color: blue;';
+            case 'green':
+                return 'color: green;';
+            default:
+                return '';
         }
     }
     
@@ -877,14 +1347,201 @@ class MecsTechnology{
             return result;
         } catch (error) {
             console.warn('计算表达式失败:', error.message);
-            return 0; // 出错时返回0
+            return 0; // 出错时返回0    
         }
     }
 
     InformationPopup(args) {
         const title = args.title || '提示';
         const content = args.content || '这是一条信息';
-        alert(`${title}\n\n${content}`);
+        const buttonText = args.buttonText || '确定';
+        const textLocation = args.textLocation || 'center';
+        const textStyle = args.textStyle || 'default';
+        
+        // 创建自定义信息框
+        return new Promise((resolve) => {
+            // 创建遮罩层
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            // 创建对话框
+            const dialog = document.createElement('div');
+            dialog.style.cssText = `
+                background: white;
+                border-radius: 12px;
+                padding: 24px;
+                min-width: 320px;
+                max-width: 480px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            `;
+            
+            // 创建图标
+            const icon = document.createElement('div');
+            icon.style.cssText = `
+                width: 48px;
+                height: 48px;
+                background: #0078d4;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0 auto 16px auto;
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+            `;
+            icon.textContent = 'i';
+            
+            // 创建标题
+            const titleEl = document.createElement('h3');
+            titleEl.textContent = title;
+            
+            // 根据文字位置设置标题对齐方式
+            let titleAlign = 'center';
+            if (textLocation === 'left') titleAlign = 'left';
+            else if (textLocation === 'right') titleAlign = 'right';
+            
+            titleEl.style.cssText = `
+                margin: 0 0 16px 0;
+                font-size: 18px;
+                font-weight: 600;
+                color: #333;
+                text-align: ${titleAlign};
+            `;
+            
+            // 创建内容
+            const contentEl = document.createElement('div');
+            contentEl.textContent = content;
+            
+            // 根据文字位置设置内容对齐方式
+            let contentAlign = 'center';
+            if (textLocation === 'left') contentAlign = 'left';
+            else if (textLocation === 'right') contentAlign = 'right';
+            
+            // 根据文字样式设置内容样式
+            let contentStyle = '';
+            if (textStyle === 'bold') contentStyle = 'font-weight: bold;';
+            else if (textStyle === 'italic') contentStyle = 'font-style: italic;';
+            else if (textStyle === 'underline') contentStyle = 'text-decoration: underline;';
+            
+            contentEl.style.cssText = `
+                margin: 0 0 24px 0;
+                font-size: 14px;
+                line-height: 1.5;
+                color: #666;
+                text-align: ${contentAlign};
+                min-height: 40px;
+                ${contentStyle}
+            `;
+            
+            // 创建确认按钮
+            const confirmBtn = document.createElement('button');
+            confirmBtn.textContent = buttonText;
+            
+            // 根据文字位置设置按钮对齐方式
+            let buttonAlign = 'center';
+            if (textLocation === 'left') buttonAlign = 'flex-start';
+            else if (textLocation === 'right') buttonAlign = 'flex-end';
+            
+            confirmBtn.style.cssText = `
+                padding: 10px 24px;
+                border: none;
+                background: #0078d4;
+                color: white;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                transition: all 0.2s ease;
+                display: block;
+                margin: ${buttonAlign === 'center' ? '0 auto' : '0'};
+                min-width: 120px;
+            `;
+            confirmBtn.onmouseover = () => {
+                confirmBtn.style.background = '#106ebe';
+                confirmBtn.style.transform = 'translateY(-1px)';
+            };
+            confirmBtn.onmouseout = () => {
+                confirmBtn.style.background = '#0078d4';
+                confirmBtn.style.transform = 'translateY(0)';
+            };
+            
+            // 添加动画样式（如果不存在）
+            if (!document.querySelector('style[data-info-popup-animations]')) {
+                const style = document.createElement('style');
+                style.setAttribute('data-info-popup-animations', 'true');
+                style.textContent = `
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideIn {
+                        from { 
+                            opacity: 0; 
+                            transform: translateY(-20px) scale(0.9);
+                        }
+                        to { 
+                            opacity: 1; 
+                            transform: translateY(0) scale(1);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // 按钮点击事件
+            const handleClose = () => {
+                document.body.removeChild(overlay);
+                resolve();
+            };
+            
+            confirmBtn.onclick = handleClose;
+            
+            // 点击遮罩层关闭
+            overlay.onclick = (e) => {
+                if (e.target === overlay) {
+                    handleClose();
+                }
+            };
+            
+            // 回车键关闭
+            const handleKeyPress = (e) => {
+                if (e.key === 'Enter' || e.key === 'Escape') {
+                    handleClose();
+                }
+            };
+            document.addEventListener('keydown', handleKeyPress);
+            
+            // 组装对话框
+            dialog.appendChild(icon);
+            dialog.appendChild(titleEl);
+            dialog.appendChild(contentEl);
+            dialog.appendChild(confirmBtn);
+            overlay.appendChild(dialog);
+            document.body.appendChild(overlay);
+            
+            // 聚焦确认按钮
+            confirmBtn.focus();
+            
+            // 清理事件监听器
+            overlay.addEventListener('DOMNodeRemoved', () => {
+                document.removeEventListener('keydown', handleKeyPress);
+            });
+        });
     }
 
     inputPopup(args) {
@@ -896,6 +1553,10 @@ class MecsTechnology{
         const defaultValue = this.escapeHtml(args.defaultValue || '');
         const timed = args.timed || 'off';
         const seconds = Math.max(1, parseInt(args.seconds) || 10);
+        
+        // 添加对textLocation和textStyle参数的处理
+        const textLocation = args.textLocation || 'left';
+        const textStyle = args.textStyle || 'default';
         
         // 处理选项，确保有默认值 - 适配Scratch扩展环境
         const options = [];
@@ -1005,7 +1666,7 @@ class MecsTechnology{
             // 构建弹窗内容
             popupBox.innerHTML = `
                 <h3 style="margin: 0 0 15px 0; color: #333;">${title}</h3>
-                <p style="margin: 0 0 15px 0;">${content}</p>
+                <p style="margin: 0 0 15px 0; text-align: ${textLocation}; ${this.getTextStyle(textStyle)}">${content}</p>
                 ${inputHtml}
                 ${timerHtml}
                 <button style="width: 100%; padding: 8px; background: #00BFFF; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px;">${buttonText}</button>
@@ -1072,7 +1733,201 @@ class MecsTechnology{
     ConfirmPopup(args){
         const title = args.title || '提示';
         const content = args.content || '这是一条信息';
-        return confirm(`${title}\n\n${content}`);
+        const buttonText1 = args.buttonText1 || '确认';
+        const buttonText2 = args.buttonText2 || '取消';
+        const textLocation = args.textLocation || 'left';
+        const textStyle = args.textStyle || 'default';
+        
+        // 创建自定义确认框
+        return new Promise((resolve) => {
+            // 创建遮罩层
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            // 创建对话框
+            const dialog = document.createElement('div');
+            dialog.style.cssText = `
+                background: white;
+                border-radius: 12px;
+                padding: 24px;
+                min-width: 320px;
+                max-width: 480px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                animation: slideIn 0.3s ease;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            `;
+            
+            // 创建标题
+            const titleEl = document.createElement('h3');
+            titleEl.textContent = title;
+            
+            // 根据文字位置设置标题对齐方式
+            let titleAlign = 'left';
+            if (textLocation === 'center') titleAlign = 'center';
+            else if (textLocation === 'right') titleAlign = 'right';
+            
+            titleEl.style.cssText = `
+                margin: 0 0 16px 0;
+                font-size: 18px;
+                font-weight: 600;
+                color: #333;
+                border-bottom: 2px solid #0078d4;
+                padding-bottom: 8px;
+                text-align: ${titleAlign};
+            `;
+            
+            // 创建内容
+            const contentEl = document.createElement('div');
+            contentEl.textContent = content;
+            
+            // 根据文字位置设置内容对齐方式
+            let contentAlign = 'left';
+            if (textLocation === 'center') contentAlign = 'center';
+            else if (textLocation === 'right') contentAlign = 'right';
+            
+            // 根据文字样式设置内容样式
+            let contentStyle = '';
+            if (textStyle === 'bold') contentStyle = 'font-weight: bold;';
+            else if (textStyle === 'italic') contentStyle = 'font-style: italic;';
+            else if (textStyle === 'underline') contentStyle = 'text-decoration: underline;';
+            
+            contentEl.style.cssText = `
+                margin: 0 0 24px 0;
+                font-size: 14px;
+                line-height: 1.5;
+                color: #666;
+                min-height: 40px;
+                text-align: ${contentAlign};
+                ${contentStyle}
+            `;
+            
+            // 创建按钮容器
+            const buttonContainer = document.createElement('div');
+            
+            // 根据文字位置设置按钮容器对齐方式
+            let buttonJustify = 'flex-end';
+            if (textLocation === 'center') buttonJustify = 'center';
+            else if (textLocation === 'left') buttonJustify = 'flex-start';
+            
+            buttonContainer.style.cssText = `
+                display: flex;
+                justify-content: ${buttonJustify};
+                gap: 12px;
+            `;
+            
+            // 创建确认按钮
+            const confirmBtn = document.createElement('button');
+            confirmBtn.textContent = buttonText1;
+            confirmBtn.style.cssText = `
+                padding: 10px 20px;
+                border: none;
+                background: #0078d4;
+                color: white;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                transition: all 0.2s ease;
+                min-width: 80px;
+            `;
+            confirmBtn.onmouseover = () => {
+                confirmBtn.style.background = '#106ebe';
+                confirmBtn.style.transform = 'translateY(-1px)';
+            };
+            confirmBtn.onmouseout = () => {
+                confirmBtn.style.background = '#0078d4';
+                confirmBtn.style.transform = 'translateY(0)';
+            };
+            
+            // 创建取消按钮
+            const cancelBtn = document.createElement('button');
+            cancelBtn.textContent = buttonText2;
+            cancelBtn.style.cssText = `
+                padding: 10px 20px;
+                border: 1px solid #ddd;
+                background: white;
+                color: #666;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+                font-weight: 500;
+                transition: all 0.2s ease;
+                min-width: 80px;
+            `;
+            cancelBtn.onmouseover = () => {
+                cancelBtn.style.background = '#f5f5f5';
+                cancelBtn.style.borderColor = '#ccc';
+                cancelBtn.style.transform = 'translateY(-1px)';
+            };
+            cancelBtn.onmouseout = () => {
+                cancelBtn.style.background = 'white';
+                cancelBtn.style.borderColor = '#ddd';
+                cancelBtn.style.transform = 'translateY(0)';
+            };
+            
+            // 添加动画样式
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes slideIn {
+                    from { 
+                        opacity: 0; 
+                        transform: translateY(-20px) scale(0.9);
+                    }
+                    to { 
+                        opacity: 1; 
+                        transform: translateY(0) scale(1);
+                    }
+                }
+            `;
+            
+            // 按钮点击事件
+            cancelBtn.onclick = () => {
+                document.body.removeChild(overlay);
+                resolve(false);
+            };
+            
+            confirmBtn.onclick = () => {
+                document.body.removeChild(overlay);
+                resolve(true);
+            };
+            
+            // 点击遮罩层关闭（可选）
+            overlay.onclick = (e) => {
+                if (e.target === overlay) {
+                    document.body.removeChild(overlay);
+                    resolve(false);
+                }
+            };
+            
+            // 组装对话框
+            buttonContainer.appendChild(cancelBtn);
+            buttonContainer.appendChild(confirmBtn);
+            dialog.appendChild(titleEl);
+            dialog.appendChild(contentEl);
+            dialog.appendChild(buttonContainer);
+            overlay.appendChild(dialog);
+            document.body.appendChild(style);
+            document.body.appendChild(overlay);
+            
+            // 聚焦确认按钮
+            confirmBtn.focus();
+        });
     }
     CurrentDate(){
         const now = new Date();
@@ -1084,7 +1939,23 @@ class MecsTechnology{
     TimeDifference(args){
         try {
             // 获取并验证日期参数
-            const inputTime = new Date(args.time);
+            let inputTime;
+            const timeInput = String(args.time || '').trim();
+            
+            // 处理数字输入（Unix时间戳）
+            if (/^\d+$/.test(timeInput)) {
+                const timestamp = parseInt(timeInput);
+                // 检查是否是合理的时间戳（1970年之后）
+                if (timestamp > 0 && timestamp < 253402300800000) { // 最大支持到9999年
+                    inputTime = new Date(timestamp);
+                } else {
+                    return "无效的时间戳";
+                }
+            } else {
+                // 处理字符串日期格式
+                inputTime = new Date(timeInput);
+            }
+            
             const currentTime = new Date();
             
             // 检查日期是否有效
@@ -1142,10 +2013,13 @@ class MecsTechnology{
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 20px;
-            background: #f0f0f0;
+            height: 30px;
+            background: rgba(240, 240, 240, 0.95);
             z-index: 9998;
             display: block;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         `;
         
         // 创建进度条
@@ -1154,10 +2028,25 @@ class MecsTechnology{
         progressBar.style.cssText = `
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #00BFFF, #FF00FF);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, #00BFFF, #0078D7);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 0 4px 4px 0;
+            position: relative;
+            overflow: hidden;
         `;
+        
+        // 添加进度条动画效果
+        const progressAnimation = document.createElement('div');
+        progressAnimation.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        `;
+        progressBar.appendChild(progressAnimation);
         
         // 创建进度文本
         const progressText = document.createElement('div');
@@ -1168,11 +2057,29 @@ class MecsTechnology{
             left: 50%;
             transform: translate(-50%, -50%);
             color: #333;
-            font-size: 12px;
+            font-size: 14px;
             font-family: Arial, sans-serif;
             font-weight: bold;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            z-index: 1;
         `;
         progressText.textContent = '0%';
+        
+        // 添加动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shimmer {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(200%); }
+            }
+            #scratch-progress-bar-container {
+                transition: transform 0.3s ease;
+            }
+            #scratch-progress-bar-container.hidden {
+                transform: translateY(100%);
+            }
+        `;
+        document.head.appendChild(style);
         
         progressBarContainer.appendChild(progressBar);
         progressBarContainer.appendChild(progressText);
@@ -1181,6 +2088,7 @@ class MecsTechnology{
         // 存储进度条引用以便后续操作
         this.progressBar = progressBar;
         this.progressText = progressText;
+        this.progressBarContainer = progressBarContainer;
     }
     
     CloseProgressBar(){
@@ -1213,9 +2121,13 @@ class MecsTechnology{
     }
     
     ProgressShowOrNot(args){
-        if (this.progressBar) {
-            this.progressBar.style.display = args.show ? 'block' : 'none';
-            return this.progressBar.style.display === 'block';
+        if (this.progressBarContainer) {
+            if (args.show) {
+                this.progressBarContainer.classList.remove('hidden');
+            } else {
+                this.progressBarContainer.classList.add('hidden');
+            }
+            return args.show;
         }
         else
         return false;
@@ -1478,7 +2390,7 @@ class MecsTechnology{
         return Date.now();
     }
 
-    async SendNotice(args){
+    async ShowAchievement(args){
         const title = args.title || 'LittleTechnology';
         const content = args.content || '消息';
         const autoCloseTimeSeconds = args.autoCloseTime || 5; // 默认5秒
@@ -1510,16 +2422,16 @@ class MecsTechnology{
         // 如果imageSource为空或'无图片'，则不显示图片
         
         // 使用自定义HTML通知代替Notification API
-        this.ShowCustomNotification(title, content, autoCloseTimeMilliseconds, imageUrl);
+        this.ShowCustomAchievement(title, content, autoCloseTimeMilliseconds, imageUrl);
         
         return true;
     }
     
-    ShowCustomNotification(title, content, autoCloseTime = 5000, image = '') {
+    ShowCustomAchievement(title, content, autoCloseTime = 5000, image = '') {
         // 检查CSS动画样式是否已存在，避免重复添加
-        if (!document.getElementById('notification-animations')) {
+        if (!document.getElementById('achievement-animations')) {
             const style = document.createElement('style');
-            style.id = 'notification-animations';
+            style.id = 'achievement-animations';
             style.textContent = `
                 @keyframes slideIn {
                     from {
@@ -1552,9 +2464,9 @@ class MecsTechnology{
         }
         
         // 创建通知容器
-        const notificationDiv = document.createElement('div');
-        notificationDiv.className = 'custom-notification';
-        notificationDiv.style.cssText = `
+        const achievementDiv = document.createElement('div');
+        achievementDiv.className = 'custom-achievement';
+        achievementDiv.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
@@ -1676,28 +2588,28 @@ class MecsTechnology{
         `;
         closeButton.innerHTML = '×';
         closeButton.onclick = function() {
-            notificationDiv.style.animation = 'slideOut 0.3s ease-in';
+            achievementDiv.style.animation = 'slideOut 0.3s ease-in';
             setTimeout(() => {
-                if (notificationDiv.parentNode) {
-                    notificationDiv.parentNode.removeChild(notificationDiv);
+                if (achievementDiv.parentNode) {
+                    achievementDiv.parentNode.removeChild(achievementDiv);
                 }
             }, 300);
         };
         
         // 组装通知
         if (imageDiv) {
-            notificationDiv.appendChild(imageDiv);
+            achievementDiv.appendChild(imageDiv);
         }
-        notificationDiv.appendChild(contentContainer);
+        achievementDiv.appendChild(contentContainer);
         contentContainer.appendChild(titleDiv);
         contentContainer.appendChild(contentDiv);
         contentContainer.appendChild(closeButton);
         
         // 添加到页面
-        document.body.appendChild(notificationDiv);
+        document.body.appendChild(achievementDiv);
         
         // 点击通知聚焦窗口
-        notificationDiv.onclick = function(e) {
+        achievementDiv.onclick = function(e) {
             if (e.target !== closeButton) {
                 window.focus();
             }
@@ -1705,31 +2617,31 @@ class MecsTechnology{
         
         // 自动关闭通知（使用传入的时间参数）
         setTimeout(() => {
-            if (notificationDiv.parentNode) {
-                notificationDiv.style.animation = 'slideOut 0.3s ease-in';
+            if (achievementDiv.parentNode) {
+                achievementDiv.style.animation = 'slideOut 0.3s ease-in';
                 setTimeout(() => {
-                    if (notificationDiv.parentNode) {
-                        notificationDiv.parentNode.removeChild(notificationDiv);
+                    if (achievementDiv.parentNode) {
+                        achievementDiv.parentNode.removeChild(achievementDiv);
                     }
                 }, 300);
             }
         }, autoCloseTime);
     }
-    SetNoticeColor(args){
+    SetAchievementColor(args){
         const color = args.color || '#667eea';
-        this.noticeColor = color;
+        this.achievementColor = color;
         
-        // 移除现有的通知颜色样式（如果存在）
-        const existingStyle = document.getElementById('notification-color-style');
+        // 移除现有的成就颜色样式（如果存在）
+        const existingStyle = document.getElementById('achievement-color-style');
         if (existingStyle) {
             document.head.removeChild(existingStyle);
         }
         
-        // 创建新的通知颜色样式
+        // 创建新的成就颜色样式 
         const style = document.createElement('style');
-        style.id = 'notification-color-style';
+        style.id = 'achievement-color-style';
         style.textContent = `
-            .custom-notification {
+            .custom-achievement {
                 background: linear-gradient(135deg, ${color} 0%, ${color} 100%) !important;
             }
         `;
@@ -1737,9 +2649,9 @@ class MecsTechnology{
     }
     
     // 颜色选择器方法 - 提供可视化颜色选择
-    ShowColorPicker(args){
-        const title = args.title || '选择通知颜色';
-        const currentColor = this.noticeColor || '#667eea';
+    ShowAchievementColorPicker(args){
+        const title = args.title || '选择成就颜色';
+        const currentColor = this.achievementColor || '#667eea';
         
         return new Promise((resolve) => {
             // 创建颜色选择弹窗
@@ -1817,7 +2729,7 @@ class MecsTechnology{
             const handleConfirm = () => {
                 const selectedColor = colorPicker.value;
                 document.body.removeChild(colorPickerContainer);
-                this.SetNoticeColor({ color: selectedColor });
+                this.SetAchievementColor({ color: selectedColor });
                 resolve(selectedColor);
             };
             
@@ -1852,7 +2764,7 @@ class MecsTechnology{
     
     // 通知颜色选择器方法 - 提供可视化通知颜色选择
     ShowNoticeColorPicker(args) {
-        return this.ShowColorPicker(args);
+        return this.ShowAchievementColorPicker(args);
     }
     
     // 设置进度条颜色方法
@@ -1871,10 +2783,29 @@ class MecsTechnology{
         style.id = 'progress-bar-color-style';
         style.textContent = `
             #scratch-progress-bar {
-                background: linear-gradient(135deg, ${color} 0%, ${color} 100%) !important;
+                background: linear-gradient(90deg, ${color}, ${this._getDarkerColor(color, 20)}) !important;
             }
         `;
         document.head.appendChild(style);
+    }
+    
+    // 颜色处理辅助函数
+    _getDarkerColor(color, percent) {
+        // 将十六进制颜色转换为RGB
+        const hex = color.replace('#', '');
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+        
+        // 计算更深的颜色
+        const darken = (value) => Math.max(0, Math.floor(value * (100 - percent) / 100));
+        
+        const darkerR = darken(r);
+        const darkerG = darken(g);
+        const darkerB = darken(b);
+        
+        // 转换回十六进制
+        return `#${darkerR.toString(16).padStart(2, '0')}${darkerG.toString(16).padStart(2, '0')}${darkerB.toString(16).padStart(2, '0')}`;
     }
     
     // 进度条颜色选择器方法 - 提供可视化进度条颜色选择
@@ -1992,15 +2923,28 @@ class MecsTechnology{
     }
     
     // 显示文件选择器方法
-    showFilePicker() {
+    showFilePicker(fileType = 'text') {        
+        // 根据文件类型设置accept属性
+        let accept = '*'; // 默认允许所有文件
+        
+        if (fileType === 'text') {
+            accept = '.txt,.md,.html,.css,.js,.json,.csv';
+        } else if (fileType === 'image') {
+            accept = 'image/*';
+        } else if (fileType === 'json') {
+            accept = '.json';
+        }
+        
         return new Promise((resolve) => {
             const input = document.createElement('input');
             input.type = 'file';
-            input.accept = 'image/*';
+            input.accept = accept;
             input.style.display = 'none';
             
             input.addEventListener('change', () => {
                 if (input.files && input.files[0]) {
+                    // 保存选择的文件到全局引用
+                    this.selectedFile = input.files[0];
                     resolve(input.files[0]);
                 } else {
                     resolve(null);
@@ -2188,5 +3132,805 @@ class MecsTechnology{
             return '未知'; // 默认返回值
         }
     }
+
+    // 时间戳转换
+    TimeStampToFormat(args){
+        const timeStamp = args.TimeStamp || '0';
+        const format = args.Format || 'yyyy-MM-dd HH:mm:ss';
+        
+        if (!timeStamp || timeStamp.trim() === '') return '';
+        
+        // 将时间戳转换为数字
+        let timestampNum = parseInt(timeStamp);
+        
+        // 判断时间戳单位：如果时间戳小于10000000000，则认为是秒为单位，需要转换为毫秒
+        if (timestampNum < 10000000000) {
+            timestampNum *= 1000;
+        }
+        
+        const date = new Date(timestampNum);
+        
+        if (isNaN(date.getTime())) {
+            console.warn('无效的时间戳:', timeStamp);
+            return '';
+        }
+        
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hour = String(date.getHours()).padStart(2, '0');
+        const minute = String(date.getMinutes()).padStart(2, '0');
+        const second = String(date.getSeconds()).padStart(2, '0');
+        
+        // 使用更安全的替换方法，避免重复替换
+        let result = format;
+        result = result.replace(/yyyy/g, year);
+        result = result.replace(/MM/g, month);
+        result = result.replace(/dd/g, day);
+        result = result.replace(/HH/g, hour);
+        result = result.replace(/mm/g, minute);
+        result = result.replace(/ss/g, second);
+        
+        return result;
+    }
+
+    // 时间单位转换
+    TimeUnitConversion(args){
+        const number = parseFloat(args.number) || 0;
+        const unit1 = args.unit1 || 'seconds';
+        const unit2 = args.unit2 || 'minutes';
+        
+        if (unit1 === unit2) return number;
+        
+        // 定义单位转换系数（基于秒）
+        const unitFactors = {
+            'timestamp': 1,        // 时间戳（秒）
+            'milliseconds': 0.001, // 毫秒
+            'seconds': 1,          // 秒
+            'minutes': 60,         // 分
+            'hours': 3600,         // 时
+            'days': 86400,         // 天
+            'weeks': 604800,       // 周
+            'months': 2592000,     // 月（30天）
+            'quarters': 7776000,   // 季（90天）
+            'years': 31536000,     // 年（365天）
+            'decades': 315360000,  // 年代（10年）
+            'century': 3153600000, // 世纪（100年）
+            'millenia': 31536000000, // 千年（1000年）
+        };
+        
+        // 检查单位是否有效
+        if (!unitFactors[unit1] || !unitFactors[unit2]) {
+            console.warn('无效的时间单位:', unit1, '或', unit2);
+            return 0;
+        }
+        
+        // 转换为秒
+        const seconds = number * unitFactors[unit1];
+        
+        // 转换为目标单位
+        return seconds / unitFactors[unit2];
+    }
+
+    // 弹窗选择对话框字体颜色
+    async ShowDialogFontColorPicker(){
+        // 创建颜色选择器
+        const colorInput = document.createElement('input');
+        colorInput.type = 'color';
+        colorInput.value = '#000000';
+        
+        // 创建弹窗容器
+        const popup = document.createElement('div');
+        popup.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #00BFFF;
+            border-radius: 10px;
+            padding: 20px;
+            z-index: 10001;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+        `;
+        
+        // 标题
+        const title = document.createElement('div');
+        title.textContent = '选择对话框字体颜色';
+        title.style.cssText = `
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #00BFFF;
+        `;
+        
+        // 颜色预览
+        const preview = document.createElement('div');
+        preview.style.cssText = `
+            width: 100px;
+            height: 50px;
+            margin: 10px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: ${colorInput.value};
+        `;
+        
+        // 按钮容器
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.cssText = `
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        `;
+        
+        // 确认按钮
+        const confirmButton = document.createElement('button');
+        confirmButton.textContent = '确认';
+        confirmButton.style.cssText = `
+            background: #00BFFF;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        `;
+        
+        // 取消按钮
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = '取消';
+        cancelButton.style.cssText = `
+            background: #ccc;
+            color: black;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        `;
+        
+        // 组装弹窗
+        popup.appendChild(title);
+        popup.appendChild(colorInput);
+        popup.appendChild(preview);
+        buttonContainer.appendChild(confirmButton);
+        buttonContainer.appendChild(cancelButton);
+        popup.appendChild(buttonContainer);
+        
+        // 添加到页面
+        document.body.appendChild(popup);
+        
+        // 颜色变化时更新预览
+        colorInput.addEventListener('input', () => {
+            preview.style.backgroundColor = colorInput.value;
+        });
+        
+        // 返回Promise处理用户选择
+        return new Promise((resolve) => {
+            // 确认按钮点击
+            confirmButton.onclick = () => {
+                document.body.removeChild(popup);
+                resolve(colorInput.value);
+            };
+            
+            // 取消按钮点击
+            cancelButton.onclick = () => {
+                document.body.removeChild(popup);
+                resolve(null);
+            };
+            
+            // 点击外部关闭
+            popup.addEventListener('click', (e) => {
+                if (e.target === popup) {
+                    document.body.removeChild(popup);
+                    resolve(null);
+                }
+            });
+            
+            // ESC键关闭
+            const handleKeyPress = (e) => {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(popup);
+                    document.removeEventListener('keydown', handleKeyPress);
+                    resolve(null);
+                }
+            };
+            document.addEventListener('keydown', handleKeyPress);
+        });
+    }
+
+    // 设置对话框字体颜色
+    SetDialogFontColor(args){
+        const color = args.color || '#000000';
+        
+        // 验证颜色格式
+        const colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+        if (!colorRegex.test(color)) {
+            console.warn('无效的颜色格式:', color);
+            return;
+        }
+        
+        // 存储颜色设置到localStorage，供ShowDialog函数使用
+        if (typeof localStorage !== 'undefined') {
+            localStorage.setItem('dialogFontColor', color);
+        }
+        
+        console.log('对话框字体颜色已设置为:', color);
+    }
+
+    ShowDialog(args){
+        const showMode = args.showMode || 'typewriter';
+        const fontPosition = args.fontPosition || 'left';
+        const title = args.title || 'LittleTechnology';
+        const content = args.content || '消息';
+        
+        // 获取用户设置的字体颜色（从localStorage）
+        let fontColor = '#000000'; // 默认黑色
+        if (typeof localStorage !== 'undefined') {
+            const savedColor = localStorage.getItem('dialogFontColor');
+            if (savedColor) {
+                fontColor = savedColor;
+            }
+        }
+        
+        // 创建对话框容器
+        const dialog = document.createElement('div');
+        dialog.style.cssText = `
+            position: fixed;
+            top: ${args.position === 'middle' ? '50%' : '80%'};
+            left: 50%;
+            transform: translate(-50%, -${args.position === 'middle' ? '50%' : '50%'});
+            background: white;
+            border: 2px solid #00BFFF;
+            border-radius: 10px;
+            padding: 30px;
+            min-width: 1000px;
+            max-width: 1200px;
+            min-height: 125px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 10000;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+        `;
+        
+        // 标题栏
+        const titleBar = document.createElement('div');
+        titleBar.style.cssText = `
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: ${fontColor};
+            text-align: ${fontPosition};
+        `;
+        titleBar.textContent = title;
+        
+        // 内容区域
+        const contentArea = document.createElement('div');
+        contentArea.style.cssText = `
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: ${fontPosition};
+            min-height: 50px;
+            color: ${fontColor};
+        `;
+        
+        // 关闭按钮
+        const closeButton = document.createElement('button');
+        closeButton.style.cssText = `
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+        `;
+        closeButton.textContent = '×';
+        closeButton.onclick = () => {
+            document.body.removeChild(dialog);
+        };
+        
+        // 组装对话框
+        dialog.appendChild(closeButton);
+        dialog.appendChild(titleBar);
+        dialog.appendChild(contentArea);
+        
+        // 添加到页面
+        document.body.appendChild(dialog);
+        
+        // 根据显示模式处理内容显示
+        if (showMode === 'typewriter') {
+            // 逐字显示效果
+            contentArea.textContent = ''; // 清空内容
+            let index = 0;
+            let typewriter = null;
+            let isAnimating = true;
+            
+            // 逐字显示函数
+            const startTypewriter = () => {
+                typewriter = setInterval(() => {
+                    if (index < content.length && isAnimating) {
+                        contentArea.textContent += content[index];
+                        index++;
+                        // 滚动到最新内容
+                        contentArea.scrollTop = contentArea.scrollHeight;
+                    } else {
+                        clearInterval(typewriter);
+                        isAnimating = false;
+                        // 动画完成后移除点击跳过监听器
+                        dialog.removeEventListener('click', skipAnimation);
+                    }
+                }, 50);
+            };
+            
+            // 开始逐字显示
+            startTypewriter();
+            
+            // 点击跳过动画功能
+            const skipAnimation = (e) => {
+                // 防止事件冒泡到外部点击关闭
+                e.stopPropagation();
+                if (isAnimating) {
+                    clearInterval(typewriter);
+                    contentArea.textContent = content; // 立即显示全部内容
+                    contentArea.scrollTop = contentArea.scrollHeight;
+                    isAnimating = false;
+                    // 跳过动画后移除点击跳过监听器
+                    dialog.removeEventListener('click', skipAnimation);
+                }
+            };
+            
+            // 为对话框添加点击跳过功能
+            dialog.addEventListener('click', skipAnimation);
+            
+        } else if (showMode === 'fade') {
+            // 渐变显示效果
+            contentArea.textContent = content;
+            contentArea.style.opacity = '0';
+            contentArea.style.transition = 'opacity 0.5s ease-in';
+            setTimeout(() => {
+                contentArea.style.opacity = '1';
+            }, 100);
+        } else {
+            // 直接显示（默认）
+            contentArea.textContent = content;
+        }
+        
+        // 点击对话框外部关闭
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) {
+                document.body.removeChild(dialog);
+            }
+        });
+        
+        // 添加ESC键关闭功能
+        const handleKeyPress = (e) => {
+            if (e.key === 'Escape') {
+                document.body.removeChild(dialog);
+                document.removeEventListener('keydown', handleKeyPress);
+            }
+        };
+        document.addEventListener('keydown', handleKeyPress);
+    }
+    
+    IfThenElse(args){
+        const condition = args.condition;
+        const trueValue = args.trueValue;
+        const falseValue = args.falseValue;
+        if(condition){
+            return trueValue;
+        }else{
+            return falseValue;
+        }
+    }
+
+    // 修复ReadFile方法，支持对象参数和直接参数两种调用方式
+    ReadFile(args, format){
+        // 处理不同的调用方式
+        let filePath, targetFormat, forceNewFile = false;
+        if (typeof args === 'object' && args !== null) {
+            // 处理对象参数调用: ReadFile({ filePath: filePath, format: format, forceNewFile: forceNewFile })
+            filePath = args.filePath;
+            targetFormat = args.format || 'text';
+            forceNewFile = args.forceNewFile || false;
+        } else {
+            // 处理直接参数调用: ReadFile(filePath, format)
+            filePath = args;
+            targetFormat = format || 'text';
+        }
+        
+        // 根据格式调用相应的读取方法
+        if(targetFormat === 'text'){
+            return this.readTextFile(filePath, forceNewFile);
+        }else if(targetFormat === 'json'){
+            return this.readJsonFile(filePath, forceNewFile);
+        }else if(targetFormat === 'url'){
+            return this.readUrlFile(filePath, forceNewFile);
+        }else if(targetFormat === 'base64'){
+            return this.readBase64File(filePath, forceNewFile);
+        }
+        
+        return '';
+    }
+    
+    // 读取文本文件
+    async readTextFile(filePath, forceNewFile = false) {
+        try {
+            // 如果filePath是文件对象，直接读取
+            if (filePath && typeof filePath === 'object' && filePath instanceof File) {
+                return await this.fileToText(filePath);
+            }
+            
+            // 如果没有强制要求新文件，并且有全局引用的文件，优先使用
+            if (!forceNewFile && this.selectedFile instanceof File) {
+                return await this.fileToText(this.selectedFile);
+            }
+            
+            // 否则显示文件选择器
+            const file = await this.showFilePicker('text');
+            if (!file) {
+                return '';
+            }
+            
+            return await this.fileToText(file);
+        } catch (error) {
+            console.error('读取文本文件失败:', error);
+            return '';
+        }
+    }
+    
+    // 读取JSON文件
+    async readJsonFile(filePath, forceNewFile = false) {
+        try {
+            // 如果filePath是文件对象，直接读取
+            let file;
+            if (filePath && typeof filePath === 'object' && filePath instanceof File) {
+                file = filePath;
+            } else if (!forceNewFile && this.selectedFile instanceof File) {
+                // 如果没有强制要求新文件，并且有全局引用的文件，优先使用
+                file = this.selectedFile;
+            } else {
+                // 否则显示文件选择器
+                file = await this.showFilePicker('json');
+                if (!file) {
+                    return null;
+                }
+            }
+            
+            const text = await this.fileToText(file);
+            return JSON.parse(text);
+        } catch (error) {
+            console.error('读取JSON文件失败:', error);
+            return null;
+        }
+    }
+    
+    // 读取文件为URL对象
+    async readUrlFile(filePath, forceNewFile = false) {
+        try {
+            // 如果filePath是文件对象，直接使用
+            let file;
+            if (filePath && typeof filePath === 'object' && filePath instanceof File) {
+                file = filePath;
+            } else if (!forceNewFile && this.selectedFile instanceof File) {
+                // 如果没有强制要求新文件，并且有全局引用的文件，优先使用
+                file = this.selectedFile;
+            } else {
+                // 否则显示文件选择器
+                file = await this.showFilePicker('text');
+                if (!file) {
+                    // 返回一个默认的空文件对象结构
+                    return { size: 0, lastModified: 0, name: '', type: '' };
+                }
+            }
+            
+            return file;
+        } catch (error) {
+            console.error('读取文件为URL失败:', error);
+            return { size: 0, lastModified: 0, name: '', type: '' };
+        }
+    }
+    
+    // 读取文件为Base64
+    async readBase64File(filePath, forceNewFile = false) {
+        try {
+            // 如果filePath是文件对象，直接读取
+            let file;
+            if (filePath && typeof filePath === 'object' && filePath instanceof File) {
+                file = filePath;
+            } else if (!forceNewFile && this.selectedFile instanceof File) {
+                // 如果没有强制要求新文件，并且有全局引用的文件，优先使用
+                file = this.selectedFile;
+            } else {
+                // 否则显示文件选择器
+                file = await this.showFilePicker('text');
+                if (!file) {
+                    return '';
+                }
+            }
+            
+            return await this.fileToDataUrl(file);
+        } catch (error) {
+            console.error('读取文件为Base64失败:', error);
+            return '';
+        }
+    }
+    
+    // 清除已选择的文件
+    ClearSelectedFile() {
+        try {
+            this.selectedFile = null;
+            return true;
+        } catch (error) {
+            console.error('清除已选文件失败:', error);
+            return false;
+        }
+    }
+    
+    // 文件转文本方法
+    fileToText(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsText(file);
+        });
+    }
+
+    ReadFileFormat(args){
+        const filePath = args.filePath;
+        const format2 = args.format2 || 'text';
+        const forceNewFile = args.forceNewFile || false;
+        return this.ReadFile({ filePath: filePath, format: format2, forceNewFile: forceNewFile });
+    }
+
+    // 获取已选择文件的名称
+    GetFileName(args){
+        try {
+            // 优先使用全局引用的文件
+            if (this.selectedFile instanceof File) {
+                return this.selectedFile.name;
+            }
+            
+            const filePath = args && args.filePath;
+            // 检查filePath是否是文件对象
+            if (filePath && typeof filePath === 'object' && filePath instanceof File) {
+                return filePath.name;
+            }
+            // 处理字符串路径或使用文件选择器
+            const file = typeof filePath === 'string' && filePath ? { name: filePath.split('/').pop() } : null;
+            return file && file.name ? file.name : '';
+        } catch (error) {
+            console.error('获取文件名失败:', error);
+            return '';
+        }
+    }
+
+    // 获取已选择文件的路径
+    GetFilePath(args){
+        try {
+            // 优先使用全局引用的文件
+            if (this.selectedFile instanceof File) {
+                return ''; // 文件对象没有路径信息（浏览器安全限制）
+            }
+            
+            const filePath = args && args.filePath;
+            // 检查filePath是否是文件对象
+            if (filePath && typeof filePath === 'object' && filePath instanceof File) {
+                return ''; // 文件对象没有路径信息（浏览器安全限制）
+            }
+            // 处理字符串路径
+            if (typeof filePath === 'string') {
+                return filePath.split('/').slice(0, -1).join('/');
+            }
+            return '';
+        } catch (error) {
+            console.error('获取文件路径失败:', error);
+            return '';
+        }
+    }
+
+    // 获取已选择文件的格式
+    GetFileFormat(args){
+        try {
+            // 优先使用全局引用的文件
+            if (this.selectedFile instanceof File) {
+                const fileName = this.selectedFile.name;
+                return fileName && fileName.includes('.') ? fileName.split('.').pop() : '';
+            }
+            
+            const fileName = this.GetFileName(args);
+            return fileName && fileName.includes('.') ? fileName.split('.').pop() : '';
+        } catch (error) {
+            console.error('获取文件格式失败:', error);
+            return '';
+        }
+    }
+
+    // 获取已选择文件的大小
+    async GetFileSize(args){
+        const unit3 = args && args.unit3 || 'byte';
+        
+        try {
+            // 优先使用全局引用的文件
+            let file;
+            if (this.selectedFile instanceof File) {
+                file = this.selectedFile;
+            } else {
+                const filePath = args && args.filePath;
+                // 检查filePath是否是文件对象
+                if (filePath && typeof filePath === 'object' && filePath instanceof File) {
+                    file = filePath;
+                }
+            }
+            
+            if (!file || !file.size) return 0;
+            
+            // 根据单位转换文件大小
+            let size = file.size;
+            switch(unit3) {
+                case 'KB':
+                    return (size / 1024).toFixed(2);
+                case 'MB':
+                    return (size / (1024 * 1024)).toFixed(2);
+                case 'GB':
+                    return (size / (1024 * 1024 * 1024)).toFixed(2);
+                case 'TB':
+                    return (size / (1024 * 1024 * 1024 * 1024)).toFixed(2);
+                case 'B':
+                case 'byte':
+                default:
+                    return size;
+            }
+        } catch (error) {
+            console.error('获取文件大小失败:', error);
+            return 0;
+        }
+    }
+
+    // 获取已选择文件的最后修改时间
+    async GetLastModifiedTime(args){
+        try {
+            // 优先使用全局引用的文件
+            if (this.selectedFile instanceof File) {
+                // 格式化时间
+                const date = new Date(this.selectedFile.lastModified);
+                return date.toLocaleString();
+            }
+            
+            // 兼容旧的调用方式
+            const file = args ? await this.ReadFile(args, 'url') : null;
+            if (file && file.lastModified) {
+                const date = new Date(file.lastModified);
+                return date.toLocaleString();
+            }
+            
+            return '';
+        } catch (error) {
+            console.error('获取最后修改时间失败:', error);
+            return '';
+        }
+    }
+
+    // 检查是否有已选择的文件
+    async IsFileSelected(args){
+        try {
+            // 优先检查全局引用的文件
+            if (this.selectedFile instanceof File) {
+                return this.selectedFile.size > 0;
+            }
+            
+            // 兼容旧的调用方式
+            const file = args ? await this.ReadFile(args, 'url') : null;
+            return file && file.size > 0;
+        } catch (error) {
+            console.error('检查文件是否选择失败:', error);
+            return false;
+        }
+    }
+
+    // 文件写入方法
+    async WriteFile(args){
+        const content = args.content || '';
+        const filePath = args.filePath || 'output.txt';
+        
+        try {
+            // 创建Blob对象
+            const blob = new Blob([content], {type: 'text/plain'});
+            
+            // 创建下载链接
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filePath;
+            
+            // 触发下载
+            document.body.appendChild(a);
+            a.click();
+            
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+            
+            return true;
+        } catch (error) {
+            console.error('写入文件失败:', error);
+            return false;
+        }
+    }
+
+    RandomBoolean(){
+        return Math.random() >= 0.5;
+    }
+
+    GetBrowserName(){
+        const userAgent = navigator.userAgent;
+        
+        // 检测浏览器类型
+        if (userAgent.includes('Chrome') && !userAgent.includes('Edg')) {
+            return 'Chrome';
+        } else if (userAgent.includes('Firefox')) {
+            return 'Firefox';
+        } else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+            return 'Safari';
+        } else if (userAgent.includes('Edg')) {
+            return 'Edge';
+        } else if (userAgent.includes('Opera') || userAgent.includes('OPR')) {
+            return 'Opera';
+        } else if (userAgent.includes('Trident') || userAgent.includes('MSIE')) {
+            return 'Internet Explorer';
+        } else {
+            return 'Unknown Browser';
+        }
+    }
+
+    GetSystemName(){
+        // `navigator.platform` 已弃用，改用 `navigator.userAgentData.platform` 替代，若不支持则回退到 `navigator.userAgent` 解析
+        if (navigator.userAgentData && navigator.userAgentData.platform) {
+            return navigator.userAgentData.platform;
+        }
+        // 回退方案
+        const userAgent = navigator.userAgent;
+        if (userAgent.includes('Win')) {
+            return 'Windows';
+        } else if (userAgent.includes('Mac')) {
+            return 'Macintosh';
+        } else if (userAgent.includes('Linux')) {
+            return 'Linux';
+        } else if (userAgent.includes('Android')) {
+            return 'Android';
+        } else if (userAgent.includes('iPhone') || userAgent.includes('iPad') || userAgent.includes('iPod')) {
+            return 'iOS';
+        }
+        return 'Unknown';
+    }
+    
+    DoubleClick(){        
+        // 检测是否发生双击事件
+        const result = this.isDoubleClick;
+        // 如果检测到双击，立即重置状态（确保每次双击只被检测一次）
+        if (result) {
+            this.isDoubleClick = false;
+        }
+        return result;
+    }
+
+    MouseWheel(args){
+        const direction = args.direction;
+        // 检测鼠标滚轮方向
+        return this.wheelDirection === direction;
+    }
+
+    LMRClick(args){
+        const button = args.button;
+        // 检测鼠标按键状态
+        return this.mouseButtons[button] || false;
+    }
 }
-Scratch.extensions.register(new MecsTechnology());
+Scratch.extensions.register(new XiMecsTechnology());
