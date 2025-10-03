@@ -197,11 +197,11 @@
             "docs": true
         },
         {
-            "slug": "汐.mec工具箱",
-            "id": "汐.mec工具箱",
-            "name": "汐.mec工具箱",
+            "slug": "XiMecsTechnology",
+            "id": "XiMecsTechnology",
+            "name": "XiMecsTechnology",
             "description": "一个由汐.mec开发的千奇百怪工具箱😈",
-            "image": "汐.mec工具箱.jpg",
+            "image": "汐.mec工具箱.png",
             "by": [
                 {
                     "name": "汐.mec",
@@ -252,6 +252,7 @@
         }
     ]
 }
+
 
 
 
