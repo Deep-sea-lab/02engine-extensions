@@ -201,7 +201,7 @@
             "id": "XiMecsTechnology",
             "name": "XiMecsTechnology",
             "description": "一个由汐.mec开发的千奇百怪工具箱😈",
-            "image": "汐.mec工具箱.png",
+            "image": "XiMecsTechnology.png",
             "by": [
                 {
                     "name": "汐.mec",
@@ -266,6 +266,7 @@
         }
     ]
 }
+
 
 
 
