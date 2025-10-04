@@ -263,6 +263,51 @@
                 }
             ],
             "docs": true
+        },
+        {
+            "slug": "更好的浏览器扩展",
+            "id": "更好的浏览器扩展",
+            "name": "更好的浏览器扩展",
+            "description": "让你的舞台可以显示更多的iframe",
+            "image": "更好的浏览器扩展.jpg",
+            "by": [
+                {
+                    "name": "是zx34呀",
+                    "link": "https://space.bilibili.com/1196118574"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "方向猫扩展",
+            "id": "方向猫扩展",
+            "name": "方向猫扩展",
+            "description": "(●ˇ∀ˇ●)~ 显示上下左右移动端辅助按钮",
+            "image": "方向猫扩展.png",
+            "by": [
+                {
+                    "name": "10000why",
+                    "link": "https://space.bilibili.com/541080936"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "快速注册/登录",
+            "id": "快速注册/登录",
+            "name": "快速注册/登录",
+            "description": "一个显示注册/登录界面的扩展，可以帮你省下一些制作登陆界面或注册界面的时间（当然前提是你对界面美观不在乎）",
+            "image": "快速注册登录.jpg",
+            "by": [
+                {
+                    "name": "数字生命3179",
+                    "link": "http://3179582.wikidot.com/start"
+                }
+            ],
+            "docs": true,
+            "samples": [
+                "快速注册登录"
+            ]
         }
     ]
 }
