@@ -308,6 +308,20 @@
             "samples": [
                 "快速注册登录"
             ]
+        },
+        {
+            "slug": "安卓adb工具",
+            "id": "安卓adb工具",
+            "name": "安卓adb工具",
+            "description": "本扩展可以在你的作品里添加一些安卓功能",
+            "image": "安卓adb工具.jpg",
+            "by": [
+                {
+                    "name": "青柠工作室",
+                    "link": "https://space.bilibili.com/3493280679463823"
+                }
+            ],
+            "docs": false
         }
     ]
 }
