@@ -322,6 +322,20 @@
                 }
             ],
             "docs": false
+        },
+            {
+            "slug": "一万的框选框",
+            "id": "一万的框选框",
+            "name": "一万的框选框",
+            "description": "实现在舞台上框选角色并经行侦测。",
+            "image": "一万的框选框.png",
+            "by": [
+                {
+                    "name": "10000why",
+                    "link": "https://space.bilibili.com/541080936"
+                }
+            ],
+            "docs": false
         }
     ]
 }
