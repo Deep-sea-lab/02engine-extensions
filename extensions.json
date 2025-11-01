@@ -1,30 +1,7 @@
 {
     "extensions": [
         {
-            "slug": "test",
-            "id": "02enginetest",
-            "name": "02enginetest",
-            "description": "test extension",
-            "nameTranslations": {
-                "zh-cn": "测试02engine"
-            },
-            "descriptionTranslations": {
-                "zh-cn": "测试扩展"
-            },
-            "image": "test.png",
-            "by": [
-                {
-                    "name": "02Studio",
-                    "link": "https://02studio.xyz"
-                }
-            ],
-            "docs": true,
-            "samples": [
-                "test"
-            ]
-        },
-        {
-           "slug": "cybertoolbox",
+            "slug": "cybertoolbox",
             "id": "toolbox",
             "name": "Cybertoolbox",
             "description": "Put a bunch of things together!",
@@ -46,27 +23,347 @@
             "docs": false
         },
         {
-           "slug": "QwQAI大模型",
-           "id": "QwQAI大模型",
-           "name": "QwQAI大模型",
-           "description": "与通义千问的QwQ大模型及部分其他AI大模型交互。非官方扩展。",
-           "nameTranslations": {
+            "slug": "kylin",
+            "id": "kylin",
+            "name": "kylin",
+            "description": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked.",
+            "descriptionTranslations": {
+                "zh-cn": "Kylin 是业界第一个用于 Scratch (Turbowarp) 的混淆器，允许你 加密 你的项目，来避免它被盗或被破解。",
+                "en": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked."
+            },
+            "image": "kylin.png",
+            "by": [
+                {
+                    "name": "FurryR",
+                    "link": "https://github.com/FurryR"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "QwQAI大模型",
+            "id": "QwQAI大模型",
+            "name": "QwQAI大模型",
+            "description": "与通义千问的QwQ大模型及部分其他AI大模型交互。非官方扩展。",
+            "nameTranslations": {
 
-           },
-           "descriptionTranslations": {
+            },
+            "descriptionTranslations": {
 
-           },
-           "image": "QwQAI大模型.jpg",
-           "by": [
-               {
-                   "name": "zekkei",
-                   "link": "https://vlink.cc/zekkei"
-               }
-           ],
-           "docs": false,
-           "samples": [
-               "QwQAI大模型.sb3"
-           ]
-       }
+            },
+            "image": "QwQAI大模型.jpg",
+            "by": [
+                {
+                    "name": "zekkei",
+                    "link": "https://vlink.cc/zekkei"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "QwQAI大模型"
+            ]
+        },
+        {
+            "slug": "小金鱼的屏蔽词",
+            "id": "小金鱼的屏蔽词",
+            "name": "小金鱼的屏蔽词",
+            "description": "小金鱼编写的屏蔽词扩展，可以应用于聊天软件中。",
+            "nameTranslations": {
+
+            },
+            "descriptionTranslations": {
+
+            },
+            "image": "小金鱼的屏蔽词.png",
+            "by": [
+                {
+                    "name": "小金鱼",
+                    "link": "https://space.bilibili.com/702559170"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "小金鱼的屏蔽词"
+            ]
+        },
+        {
+            "slug": "本地数据库",
+            "id": "本地数据库",
+            "name": "本地数据库",
+            "description": "更好地将数据储存在本地，与[本地储存]扩展不冲突。（即可储存同名数据而不冲突）",
+            "nameTranslations": {
+
+            },
+            "descriptionTranslations": {
+
+            },
+            "image": "本地数据库.jpg",
+            "by": [
+                {
+                    "name": "zekkei",
+                    "link": "https://vlink.cc/zekkei"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "本地数据库"
+            ]
+        },
+        {
+            "slug": "孔明的模糊",
+            "id": "kmBlur",
+            "name": "孔明的模糊",
+            "description": "直接设定个体角色的模糊程度，支持缓存，更加简易、实用。",
+            "image": "孔明的模糊.png",
+            "by": [
+                {
+                    "name": "孔明",
+                    "link": "https://space.bilibili.com/3493289367964051?spm_id_from=333.1007.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "孔明的模糊"
+            ]
+        },
+        {
+            "slug": "seacloud",
+            "id": "seacloud",
+            "name": "SeaCloud",
+            "description": "Account management tools used for SCOS on 02Engine, simplifying",
+            "nameTranslations": {
+                "zh-cn": "海云",
+                "en": "SeaCloud"
+            },
+            "descriptionTranslations": {
+                "zh-cn": "在02Engine上为SCOS使用的账户管理工具，化繁为简",
+                "en": "Account management tools used for SCOS on 02Engine, simplifying"
+            },
+            "image": "seacloud.png",
+            "by": [
+                {
+                    "name": "Deep-Sea",
+                    "link": "https://www.deep-sea.filegear-sg.me"
+                }
+            ],
+            "docs": true
+        },
+        {
+            "slug": "补间 Plus",
+            "id": "kmsTween",
+            "name": "补间 Plus",
+            "description": "计算三次贝塞尔曲线的动画进度和时间，需要一定的Css基础。",
+            "image": "补间 Plus.png",
+            "by": [
+                {
+                    "name": "孔明",
+                    "link": "https://space.bilibili.com/3493289367964051?spm_id_from=333.1007.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "补间 Plus"
+            ]
+        },
+        {
+            "slug": "msj的工具箱",
+            "id": "msj的工具箱",
+            "name": "msj的工具箱",
+            "description": "包含和网络、文件处理、文件下载和计算有关的实用工具，但还在测试阶段",
+            "image": "msj的工具箱.png",
+            "by": [
+                {
+                    "name": "玩MC的Sc俊杰",
+                    "link": "https://b23.tv/F2Ut3hr"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "msj的工具箱"
+            ]
+        },
+        {
+            "slug": "神经网络",
+            "id": "神经网络",
+            "name": "神经网络",
+            "description": "一个简单易上手的神经网络扩展",
+            "image": "神经网络.jpg",
+            "by": [
+                {
+                    "name": "瓜子",
+                    "link": "https://space.bilibili.com/3546667668212509?spm_id_from=333.337.0.0"
+                }
+            ],
+            "docs": true
+        },
+        {
+            "slug": "XiMecsTechnology",
+            "id": "XiMecsTechnology",
+            "name": "XiMecsTechnology",
+            "description": "一个由汐.mec开发的千奇百怪工具箱😈",
+            "image": "XiMecsTechnology.png",
+            "by": [
+                {
+                    "name": "汐.mec",
+                    "link": ""
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "texturefix",
+            "id": "texturefix",
+            "name": "纹理画布",
+            "nameTranslations": {
+                "en-us": "Texture Canvas"
+            },
+            "description": "在独立于画笔的画布上更便携地进行图像绘制",
+            "image": "texturefix.png",
+            "descriptionTranslations": {
+                "en-us": "Better conveniently draw rect,images and textures on standalone canvas"
+            },
+            "by": [
+                {
+                    "name": "Xbodw",
+                    "link": "https://space.bilibili.com/1552375363"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "oaa",
+            "id": "objectArray",
+            "name": "数组和对象",
+            "nameTranslations": {
+                "en-us": "Object and Array"
+            },
+            "description": "更完整的JSON对象/数组功能",
+            "image": "test.png",
+            "descriptionTranslations": {
+                "en-us": "Better JSON Features"
+            },
+            "by": [
+                {
+                    "name": "Xbodw",
+                    "link": "https://space.bilibili.com/1552375363"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "B小猫",
+            "id": "B小猫",
+            "name": "B小猫",
+            "description": "通过哔哩哔哩公开接口获取海量信息，喵(=・ω・=)~",
+            "image": "B小猫.png",
+            "by": [
+                {
+                    "name": "10000why",
+                    "link": "https://space.bilibili.com/541080936"
+                }
+            ],
+            "docs": true
+        },
+        {
+            "slug": "更好的浏览器扩展",
+            "id": "更好的浏览器扩展",
+            "name": "更好的浏览器扩展",
+            "description": "让你的舞台可以显示更多的iframe",
+            "image": "更好的浏览器扩展.jpg",
+            "by": [
+                {
+                    "name": "是zx34呀",
+                    "link": "https://space.bilibili.com/1196118574"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "方向猫扩展",
+            "id": "方向猫扩展",
+            "name": "方向猫扩展",
+            "description": "(●ˇ∀ˇ●)~ 显示上下左右移动端辅助按钮",
+            "image": "方向猫扩展.png",
+            "by": [
+                {
+                    "name": "10000why",
+                    "link": "https://space.bilibili.com/541080936"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "快速注册登录",
+            "id": "快速注册登录",
+            "name": "快速注册登录",
+            "description": "一个显示注册登录界面的扩展，可以帮你省下一些制作登陆界面或注册界面的时间（当然前提是你对界面美观不在乎）",
+            "image": "快速注册登录.jpg",
+            "by": [
+                {
+                    "name": "数字生命3179",
+                    "link": "http://3179582.wikidot.com/start"
+                }
+            ],
+            "docs": true,
+            "samples": [
+                "快速注册登录"
+            ]
+        },
+        {
+            "slug": "安卓adb工具",
+            "id": "安卓adb工具",
+            "name": "安卓adb工具",
+            "description": "本扩展可以在你的作品里添加一些安卓功能",
+            "image": "安卓adb工具.jpg",
+            "by": [
+                {
+                    "name": "青柠工作室",
+                    "link": "https://space.bilibili.com/3493280679463823"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "一万的框选框",
+            "id": "一万的框选框",
+            "name": "一万的框选框",
+            "description": "实现在舞台上框选角色并经行侦测。",
+            "image": "一万的框选框.png",
+            "by": [
+                {
+                    "name": "10000why",
+                    "link": "https://space.bilibili.com/541080936"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "贝塞尔曲线",
+            "id": "bezierCurve",
+            "name": "贝塞尔曲线",
+            "description": "生成贝塞尔曲线，支持控制点设置，计算曲线上任意点的坐标和切线角度。",
+            "image": "bezier-curve.png",
+            "by": [
+                {
+                    "name": "空明2403",
+                    "link": "https://m.bilibili.com/space/3493092640426109?spm_id_from=333.33.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "bezierCurveExample.sb3"
+            ],
+            "version": "2.1.0"
+        }
+
     ]
 }
+
+
+
+
+
+
+
+
+
