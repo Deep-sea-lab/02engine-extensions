@@ -323,7 +323,7 @@
             ],
             "docs": false
         },
-            {
+        {
             "slug": "一万的框选框",
             "id": "一万的框选框",
             "name": "一万的框选框",
@@ -336,9 +336,30 @@
                 }
             ],
             "docs": false
+        },
+        {
+            "slug": "贝塞尔曲线",
+            "id": "bezierCurve",
+            "name": "贝塞尔曲线",
+            "description": "生成贝塞尔曲线，支持控制点设置，计算曲线上任意点的坐标和切线角度。",
+            "image": "bezier-curve.png",
+            "by": [
+                {
+                    "name": "空明2403",
+                    "link": "https://m.bilibili.com/space/3493092640426109?spm_id_from=333.33.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "bezierCurveExample.sb3"
+            ],
+            "version": "2.1.0"
         }
+
     ]
 }
+
+
 
 
 
