@@ -368,7 +368,37 @@
                 }
             ],
             "docs": false
+        },
+        {
+            "slug": "作品锁",
+            "id": "projectLocking",
+            "name": "作品锁",
+            "description": "让你的项目更加安全。",
+            "image": "projectLocking.png",
+            "by": [
+                {
+                    "name": "朱元翔",
+                    "link": "https://space.bilibili.com/3546902484224452?spm_id_from=333.1007.0.0"
+                },
+                {
+                    "name": "YL_YOLO",
+                    "link": "https://space.bilibili.com/1444083784?spm_id_from=333.337.0.0"
+                },
+                {
+                    "name": "10000why",
+                    "link": "https://space.bilibili.com/541080936?spm_id_from=333.337.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "作品锁示例作品"
+            ],
+            "version": "1.0.0",
+            "license": "AGPL 3.0"
         }
+
 
     ]
 }
+
+
