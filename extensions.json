@@ -355,7 +355,7 @@
             ],
             "version": "2.1.0"
         },
-                {
+        {
             "slug": "更好的询问框",
             "id": "更好的询问框",
             "name": "更好的询问框",
@@ -368,7 +368,49 @@
                 }
             ],
             "docs": false
+        },
+        {
+            "slug": "wrapper.global",
+            "id": "extensionWrapper",
+            "name": "Extension Wrapper",
+            "description": "在Turbowarp中加载CCW扩展的前置扩展",
+            "nameTranslations": {
+                "en": "Extension Wrapper",
+                "zh-cn": "扩展适配器"
+            },
+            "descriptionTranslations": {
+                "en": "A bootstrap extension for CCW extensions loader in Turbowarp",
+                "zh-cn": "在Turbowarp中加载CCW扩展的前置扩展"
+            },
+            "image": "ccw.svg",
+            "by": [
+                {
+                    "name": "Xbodwf",
+                    "link": "https://github.com/xbodwf"
+                },
+                {
+                    "name": "FurryR",
+                    "link": "https://github.com/FurryR"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "ccwpolyfill"
+            ]
+        },
+        {
+            "slug": "3d-basicrt",
+            "id": "3d-basicrt",
+            "name": "3d-basicrt",
+            "description": "喵，这是一个简单易上手的3D扩展，快来试试吧！",
+            "image": "3d-basicrt.png",
+            "by": [
+                {
+                    "name": "果汁的梦",
+                    "link": "https://space.bilibili.com/3546884505340624?spm_id_from=333.788.0.0"
+                }
+            ],
+            "docs": false
         }
-
     ]
 }
