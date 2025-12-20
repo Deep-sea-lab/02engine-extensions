@@ -1,4 +1,4 @@
-//1.73新增神经元可视化功能，优化界面
+//2.0优化界面，界面更加好看，增加拖动可视化面板的问题
 class NeuralNetwork {
     constructor() {
         this.layers = [];
@@ -573,35 +573,50 @@ function createVisualizationPanel() {
     panel.style.right = '20px';
     panel.style.width = '600px';
     panel.style.height = '500px';
-    panel.style.backgroundColor = 'white';
-    panel.style.border = '2px solid #00cc99';
-    panel.style.borderRadius = '8px';
-    panel.style.padding = '15px';
-    panel.style.boxShadow = '0 4px 16px rgba(0,0,0,0.25)';
+    panel.style.backgroundColor = '#f7fbf9';
+    panel.style.border = '1px solid #e8f4ef';
+    panel.style.borderRadius = '16px';
+    panel.style.padding = '20px';
+    panel.style.boxShadow = '0 12px 40px rgba(0, 100, 75, 0.1)';
     panel.style.zIndex = '10000';
-    panel.style.fontFamily = 'Arial, sans-serif';
+    panel.style.fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    panel.style.overflow = 'hidden';
+    panel.style.transition = 'all 0.3s ease';
+    panel.style.color = '#1a1a1a';
     
     const title = document.createElement('h3');
     title.textContent = '神经网络可视化';
-    title.style.color = '#009973';
-    title.style.margin = '0 0 15px 0';
-    title.style.fontSize = '18px';
+    title.style.color = '#008060';
+    title.style.margin = '0 0 20px 0';
+    title.style.fontSize = '20px';
+    title.style.fontWeight = '600';
+    title.style.letterSpacing = '0.5px';
     panel.appendChild(title);
     
     const closeBtn = document.createElement('button');
     closeBtn.textContent = '×';
     closeBtn.style.position = 'absolute';
-    closeBtn.style.top = '10px';
-    closeBtn.style.right = '10px';
-    closeBtn.style.backgroundColor = 'transparent';
+    closeBtn.style.top = '15px';
+    closeBtn.style.right = '15px';
+    closeBtn.style.backgroundColor = '#f5f5f5';
     closeBtn.style.border = 'none';
-    closeBtn.style.color = '#009973';
-    closeBtn.style.fontSize = '24px';
+    closeBtn.style.color = '#666';
+    closeBtn.style.fontSize = '20px';
     closeBtn.style.cursor = 'pointer';
     closeBtn.style.lineHeight = '1';
-    closeBtn.style.padding = '5px';
+    closeBtn.style.padding = '8px';
+    closeBtn.style.borderRadius = '50%';
+    closeBtn.style.transition = 'all 0.2s ease';
     closeBtn.onclick = () => {
         panel.style.display = 'none';
+    };
+    closeBtn.onmouseenter = () => {
+        closeBtn.style.backgroundColor = '#e0e0e0';
+        closeBtn.style.color = '#333';
+    };
+    closeBtn.onmouseleave = () => {
+        closeBtn.style.backgroundColor = '#f5f5f5';
+        closeBtn.style.color = '#666';
     };
     panel.appendChild(closeBtn);
     
@@ -615,26 +630,28 @@ function createVisualizationPanel() {
     const animateBtn = document.createElement('button');
     animateBtn.id = 'animate-toggle';
     animateBtn.textContent = '开启动画';
-    animateBtn.style.padding = '5px 10px';
-    animateBtn.style.backgroundColor = '#00cc99';
+    animateBtn.style.padding = '8px 16px';
+    animateBtn.style.backgroundColor = '#00a870';
     animateBtn.style.color = 'white';
     animateBtn.style.border = 'none';
-    animateBtn.style.borderRadius = '4px';
+    animateBtn.style.borderRadius = '8px';
     animateBtn.style.cursor = 'pointer';
+    animateBtn.style.fontWeight = '500';
+    animateBtn.style.transition = 'all 0.2s ease';
     animateBtn.onclick = () => {
         const isAnimating = animateBtn.textContent === '关闭动画';
         
         if (isAnimating) {
             // 关闭动画
             animateBtn.textContent = '开启动画';
-            animateBtn.style.backgroundColor = '#00cc99';
+            animateBtn.style.backgroundColor = '#00a870';
             neuralNetworkAnimationEnabled = false;
             window.neuralNetworkAnimationEnabled = false;
             stopAnimation(); // 明确停止动画
         } else {
             // 开启动画
             animateBtn.textContent = '关闭动画';
-            animateBtn.style.backgroundColor = '#ff6666';
+            animateBtn.style.backgroundColor = '#ff5252';
             neuralNetworkAnimationEnabled = true;
             window.neuralNetworkAnimationEnabled = true;
             animationRunning = true; // 直接设置动画运行状态
@@ -648,6 +665,26 @@ function createVisualizationPanel() {
             }
         }
     };
+    
+    animateBtn.onmouseenter = () => {
+        if (animateBtn.textContent === '关闭动画') {
+            animateBtn.style.backgroundColor = '#ff3d3d';
+        } else {
+            animateBtn.style.backgroundColor = '#00965e';
+        }
+        animateBtn.style.transform = 'translateY(-1px)';
+        animateBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+    };
+    
+    animateBtn.onmouseleave = () => {
+        if (animateBtn.textContent === '关闭动画') {
+            animateBtn.style.backgroundColor = '#ff5252';
+        } else {
+            animateBtn.style.backgroundColor = '#00a870';
+        }
+        animateBtn.style.transform = 'translateY(0)';
+        animateBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+    };
     controls.appendChild(animateBtn);
     
     const speedControl = document.createElement('select');
@@ -657,9 +694,22 @@ function createVisualizationPanel() {
         <option value="normal" selected>正常</option>
         <option value="fast">快速</option>
     `;
-    speedControl.style.padding = '5px';
-    speedControl.style.borderRadius = '4px';
-    speedControl.style.border = '1px solid #ddd';
+    speedControl.style.padding = '8px 12px';
+    speedControl.style.borderRadius = '8px';
+    speedControl.style.border = '1px solid #e0e0e0';
+    speedControl.style.backgroundColor = '#ffffff';
+    speedControl.style.fontFamily = 'inherit';
+    speedControl.style.fontSize = '14px';
+    speedControl.style.cursor = 'pointer';
+    speedControl.style.transition = 'all 0.2s ease';
+    speedControl.onmouseenter = () => {
+        speedControl.style.borderColor = '#00a870';
+        speedControl.style.boxShadow = '0 0 0 3px rgba(0, 168, 112, 0.1)';
+    };
+    speedControl.onmouseleave = () => {
+        speedControl.style.borderColor = '#e0e0e0';
+        speedControl.style.boxShadow = 'none';
+    };
     controls.appendChild(speedControl);
     
     // 粒子数量控制
@@ -668,6 +718,8 @@ function createVisualizationPanel() {
     particleCountLabel.style.display = 'flex';
     particleCountLabel.style.alignItems = 'center';
     particleCountLabel.style.gap = '5px';
+    particleCountLabel.style.fontSize = '14px';
+    particleCountLabel.style.color = '#333';
     controls.appendChild(particleCountLabel);
     
     const particleCountControl = document.createElement('select');
@@ -678,9 +730,22 @@ function createVisualizationPanel() {
         <option value="300" selected>多</option>
         <option value="500">非常多</option>
     `;
-    particleCountControl.style.padding = '5px';
-    particleCountControl.style.borderRadius = '4px';
-    particleCountControl.style.border = '1px solid #ddd';
+    particleCountControl.style.padding = '8px 12px';
+    particleCountControl.style.borderRadius = '8px';
+    particleCountControl.style.border = '1px solid #e0e0e0';
+    particleCountControl.style.backgroundColor = '#ffffff';
+    particleCountControl.style.fontFamily = 'inherit';
+    particleCountControl.style.fontSize = '14px';
+    particleCountControl.style.cursor = 'pointer';
+    particleCountControl.style.transition = 'all 0.2s ease';
+    particleCountControl.onmouseenter = () => {
+        particleCountControl.style.borderColor = '#00a870';
+        particleCountControl.style.boxShadow = '0 0 0 3px rgba(0, 168, 112, 0.1)';
+    };
+    particleCountControl.onmouseleave = () => {
+        particleCountControl.style.borderColor = '#e0e0e0';
+        particleCountControl.style.boxShadow = 'none';
+    };
     particleCountControl.onchange = function() {
         // 更新最大粒子数
         const newMax = parseInt(this.value);
@@ -699,65 +764,146 @@ function createVisualizationPanel() {
     particleSpeedLabel.style.display = 'flex';
     particleSpeedLabel.style.alignItems = 'center';
     particleSpeedLabel.style.gap = '5px';
+    particleSpeedLabel.style.fontSize = '14px';
+    particleSpeedLabel.style.color = '#333';
     controls.appendChild(particleSpeedLabel);
     
-    const particleSpeedControl = document.createElement('range');
+    const particleSpeedControl = document.createElement('input');
     particleSpeedControl.id = 'particle-speed';
     particleSpeedControl.type = 'range';
     particleSpeedControl.min = '1';
     particleSpeedControl.max = '10';
     particleSpeedControl.value = '2'; // 默认速度
     particleSpeedControl.style.width = '80px';
+    particleSpeedControl.style.height = '6px';
+    particleSpeedControl.style.backgroundColor = '#e0e0e0';
+    particleSpeedControl.style.borderRadius = '3px';
+    particleSpeedControl.style.outline = 'none';
+    particleSpeedControl.style.cursor = 'pointer';
+    particleSpeedControl.style.transition = 'all 0.2s ease';
     particleSpeedControl.oninput = function() {
         window.neuralNetworkParticleSpeed = parseInt(this.value);
+    };
+    particleSpeedControl.onmouseenter = () => {
+        particleSpeedControl.style.backgroundColor = '#00a870';
+        particleSpeedControl.style.boxShadow = '0 0 0 3px rgba(0, 168, 112, 0.1)';
+    };
+    particleSpeedControl.onmouseleave = () => {
+        particleSpeedControl.style.backgroundColor = '#e0e0e0';
+        particleSpeedControl.style.boxShadow = 'none';
     };
     particleSpeedLabel.appendChild(particleSpeedControl);
     
     // 脉动效果开关
+    const pulseControl = document.createElement('div');
+    pulseControl.style.display = 'flex';
+    pulseControl.style.alignItems = 'center';
+    pulseControl.style.marginLeft = '10px';
+    controls.appendChild(pulseControl);
+    
     const pulseToggle = document.createElement('input');
     pulseToggle.id = 'pulse-toggle';
     pulseToggle.type = 'checkbox';
     pulseToggle.checked = true;
-    pulseToggle.style.marginLeft = '10px';
+    pulseToggle.style.appearance = 'none';
+    pulseToggle.style.width = '40px';
+    pulseToggle.style.height = '20px';
+    pulseToggle.style.backgroundColor = '#e0e0e0';
+    pulseToggle.style.borderRadius = '10px';
+    pulseToggle.style.cursor = 'pointer';
+    pulseToggle.style.transition = 'all 0.2s ease';
+    pulseToggle.style.position = 'relative';
+    pulseToggle.style.outline = 'none';
     pulseToggle.onchange = function() {
         window.neuralNetworkPulseEnabled = this.checked;
+        pulseToggle.style.backgroundColor = this.checked ? '#00a870' : '#e0e0e0';
+        pulseToggle.style.boxShadow = this.checked ? '0 0 0 3px rgba(0, 168, 112, 0.1)' : 'none';
+        toggleDot.style.left = this.checked ? '22px' : '2px';
     };
-    controls.appendChild(pulseToggle);
+    
+    // 添加开关按钮的滑块
+    const toggleDot = document.createElement('span');
+    toggleDot.style.position = 'absolute';
+    toggleDot.style.top = '2px';
+    toggleDot.style.left = '22px';
+    toggleDot.style.width = '16px';
+    toggleDot.style.height = '16px';
+    toggleDot.style.backgroundColor = 'white';
+    toggleDot.style.borderRadius = '50%';
+    toggleDot.style.transition = 'all 0.2s ease';
+    toggleDot.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+    pulseToggle.appendChild(toggleDot);
+    
+    // 初始化开关状态
+    pulseToggle.style.backgroundColor = pulseToggle.checked ? '#00a870' : '#e0e0e0';
     
     const pulseLabel = document.createElement('label');
     pulseLabel.textContent = '神经元脉动';
     pulseLabel.htmlFor = 'pulse-toggle';
-    pulseLabel.style.marginLeft = '5px';
-    controls.appendChild(pulseLabel);
+    pulseLabel.style.marginLeft = '8px';
+    pulseLabel.style.fontSize = '14px';
+    pulseLabel.style.color = '#333';
+    pulseLabel.style.cursor = 'pointer';
+    
+    pulseControl.appendChild(pulseToggle);
+    pulseControl.appendChild(pulseLabel);
     
     // 创建选项卡
     const tabs = document.createElement('div');
     tabs.style.display = 'flex';
-    tabs.style.borderBottom = '1px solid #eee';
+    tabs.style.borderBottom = '1px solid #e0e0e0';
     tabs.style.marginBottom = '10px';
+    tabs.style.position = 'relative';
     panel.appendChild(tabs);
     
     const trainTab = document.createElement('button');
     trainTab.textContent = '训练进度';
     trainTab.id = 'tab-train';
-    trainTab.style.padding = '8px 15px';
+    trainTab.style.padding = '10px 18px';
     trainTab.style.border = 'none';
-    trainTab.style.borderBottom = '2px solid #00cc99';
+    trainTab.style.borderBottom = '2px solid #00a870';
     trainTab.style.backgroundColor = 'transparent';
     trainTab.style.cursor = 'pointer';
-    trainTab.style.fontWeight = 'bold';
-    trainTab.style.color = '#009973';
+    trainTab.style.fontWeight = '600';
+    trainTab.style.color = '#00a870';
+    trainTab.style.fontFamily = 'inherit';
+    trainTab.style.fontSize = '14px';
+    trainTab.style.transition = 'all 0.2s ease';
+    trainTab.style.borderTopLeftRadius = '8px';
+    trainTab.style.borderTopRightRadius = '8px';
+    trainTab.onmouseenter = () => {
+        trainTab.style.backgroundColor = 'rgba(0, 168, 112, 0.05)';
+    };
+    trainTab.onmouseleave = () => {
+        trainTab.style.backgroundColor = 'transparent';
+    };
     tabs.appendChild(trainTab);
     
     const networkTab = document.createElement('button');
     networkTab.textContent = '网络结构';
     networkTab.id = 'tab-network';
-    networkTab.style.padding = '8px 15px';
+    networkTab.style.padding = '10px 18px';
     networkTab.style.border = 'none';
     networkTab.style.borderBottom = '2px solid transparent';
     networkTab.style.backgroundColor = 'transparent';
     networkTab.style.cursor = 'pointer';
     networkTab.style.color = '#666';
+    networkTab.style.fontFamily = 'inherit';
+    networkTab.style.fontSize = '14px';
+    networkTab.style.fontWeight = '500';
+    networkTab.style.transition = 'all 0.2s ease';
+    networkTab.style.borderTopLeftRadius = '8px';
+    networkTab.style.borderTopRightRadius = '8px';
+    networkTab.onmouseenter = () => {
+        networkTab.style.backgroundColor = 'rgba(0, 168, 112, 0.05)';
+        networkTab.style.color = '#00a870';
+    };
+    networkTab.onmouseleave = () => {
+        networkTab.style.backgroundColor = 'transparent';
+        if (networkTab.style.borderBottomColor === 'transparent') {
+            networkTab.style.color = '#666';
+        }
+    };
     tabs.appendChild(networkTab);
     
     // 训练进度面板
@@ -799,22 +945,22 @@ function createVisualizationPanel() {
     trainTab.onclick = () => {
         trainPanel.style.display = 'block';
         networkPanel.style.display = 'none';
-        trainTab.style.borderBottom = '2px solid #00cc99';
-        trainTab.style.fontWeight = 'bold';
-        trainTab.style.color = '#009973';
+        trainTab.style.borderBottom = '2px solid #00a870';
+        trainTab.style.fontWeight = '600';
+        trainTab.style.color = '#00a870';
         networkTab.style.borderBottom = '2px solid transparent';
-        networkTab.style.fontWeight = 'normal';
+        networkTab.style.fontWeight = '500';
         networkTab.style.color = '#666';
     };
     
     networkTab.onclick = () => {
         trainPanel.style.display = 'none';
         networkPanel.style.display = 'block';
-        networkTab.style.borderBottom = '2px solid #00cc99';
-        networkTab.style.fontWeight = 'bold';
-        networkTab.style.color = '#009973';
+        networkTab.style.borderBottom = '2px solid #00a870';
+        networkTab.style.fontWeight = '600';
+        networkTab.style.color = '#00a870';
         trainTab.style.borderBottom = '2px solid transparent';
-        trainTab.style.fontWeight = 'normal';
+        trainTab.style.fontWeight = '500';
         trainTab.style.color = '#666';
         // 切换到网络结构时立即绘制
         if (neuralNetwork) {
@@ -835,44 +981,78 @@ function createVisualizationPanel() {
 
 // 使元素可拖动的辅助函数
 function makeDraggable(element, handle) {
-    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let isDragging = false;
+    let startX, startY;
+    let initialX, initialY;
     
     if (handle) {
         // 如果有指定的拖动句柄
         handle.style.cursor = 'move';
-        handle.onmousedown = dragMouseDown;
+        handle.addEventListener('mousedown', dragStart);
     } else {
         // 否则整个元素都可以拖动
-        element.onmousedown = dragMouseDown;
+        element.addEventListener('mousedown', dragStart);
     }
     
-    function dragMouseDown(e) {
+    function dragStart(e) {
         e = e || window.event;
         e.preventDefault();
-        // 获取鼠标位置
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
+        
+        // 设置拖动状态
+        isDragging = true;
+        
+        // 获取初始鼠标位置
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        // 移除bottom和right属性，使用top和left进行定位
+        if (element.style.bottom !== '' || element.style.right !== '') {
+            const rect = element.getBoundingClientRect();
+            element.style.top = rect.top + 'px';
+            element.style.left = rect.left + 'px';
+            element.style.bottom = '';
+            element.style.right = '';
+            element.style.position = 'fixed';
+        }
+        
+        // 记录元素初始位置（相对于视口）
+        const rect = element.getBoundingClientRect();
+        initialX = rect.left;
+        initialY = rect.top;
+        
+        // 添加事件监听器
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', dragEnd);
+        
+        // 防止选择文本
+        document.body.style.userSelect = 'none';
     }
     
-    function elementDrag(e) {
+    function drag(e) {
+        if (!isDragging) return;
+        
         e = e || window.event;
         e.preventDefault();
-        // 计算新位置
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // 设置新位置
-        element.style.top = (element.offsetTop - pos2) + 'px';
-        element.style.left = (element.offsetLeft - pos1) + 'px';
+        
+        // 计算鼠标移动距离
+        const deltaX = e.clientX - startX;
+        const deltaY = e.clientY - startY;
+        
+        // 设置新位置（直接使用初始位置加上移动距离）
+        element.style.left = (initialX + deltaX) + 'px';
+        element.style.top = (initialY + deltaY) + 'px';
     }
     
-    function closeDragElement() {
-        // 停止移动
-        document.onmouseup = null;
-        document.onmousemove = null;
+    function dragEnd() {
+        // 重置拖动状态
+        isDragging = false;
+        
+        // 移除事件监听器
+        document.removeEventListener('mousemove', drag);
+        document.removeEventListener('mouseup', dragEnd);
+        
+        // 恢复文本选择
+        document.body.style.userSelect = '';
     }
 }
 
@@ -938,17 +1118,40 @@ function drawNetworkStructure(network) {
                     const animationFactor = 0.8 + 0.2 * Math.sin(animationTime + layerIndex * 0.5 + i * 0.3 + j * 0.2);
                     const currentAlpha = alpha * animationFactor;
                     
-                    ctx.beginPath();
-                    ctx.moveTo(prevLayerX, margin + prevPositions[j].y);
-                    ctx.lineTo(currentLayerX, margin + currentPositions[i].y);
+                    const startX = prevLayerX;
+                    const startY = margin + prevPositions[j].y;
+                    const endX = currentLayerX;
+                    const endY = margin + currentPositions[i].y;
+                    
+                    // 创建连接线渐变效果
+                    const gradient = ctx.createLinearGradient(startX, startY, endX, endY);
                     
                     if (weight > 0) {
-                        ctx.strokeStyle = `rgba(0, 153, 115, ${currentAlpha})`;
+                        gradient.addColorStop(0, `rgba(0, 168, 112, ${currentAlpha * 0.6})`);
+                        gradient.addColorStop(0.5, `rgba(0, 168, 112, ${currentAlpha})`);
+                        gradient.addColorStop(1, `rgba(0, 168, 112, ${currentAlpha * 0.6})`);
                     } else {
-                        ctx.strokeStyle = `rgba(204, 0, 0, ${currentAlpha})`;
+                        gradient.addColorStop(0, `rgba(217, 45, 32, ${currentAlpha * 0.6})`);
+                        gradient.addColorStop(0.5, `rgba(217, 45, 32, ${currentAlpha})`);
+                        gradient.addColorStop(1, `rgba(217, 45, 32, ${currentAlpha * 0.6})`);
                     }
-                    ctx.lineWidth = 0.5 + Math.abs(weight) * animationFactor;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(startX, startY);
+                    ctx.lineTo(endX, endY);
+                    ctx.strokeStyle = gradient;
+                    ctx.lineWidth = 0.8 + Math.abs(weight) * animationFactor;
                     ctx.stroke();
+                    
+                    // 添加连接线发光效果
+                    if (Math.abs(weight) > 0.2) {
+                        ctx.beginPath();
+                        ctx.moveTo(startX, startY);
+                        ctx.lineTo(endX, endY);
+                        ctx.strokeStyle = weight > 0 ? `rgba(0, 255, 170, ${currentAlpha * 0.3})` : `rgba(255, 80, 60, ${currentAlpha * 0.3})`;
+                        ctx.lineWidth = 2 + Math.abs(weight) * animationFactor * 2;
+                        ctx.stroke();
+                    }
                 }
             }
         }
@@ -956,30 +1159,62 @@ function drawNetworkStructure(network) {
     
     // 绘制信号流粒子
     particles.forEach(particle => {
+        // 绘制粒子发光效果
+        const glowAlpha = particle.alpha * 0.4;
+        const glowSize = particle.size * 2;
+        
+        // 创建发光渐变
+        const glowGradient = ctx.createRadialGradient(
+            particle.x, particle.y, 0,
+            particle.x, particle.y, glowSize
+        );
+        
+        if (particle.color.includes('0, 168, 112')) {
+            glowGradient.addColorStop(0, `rgba(0, 255, 170, ${glowAlpha})`);
+            glowGradient.addColorStop(1, `rgba(0, 255, 170, 0)`);
+        } else {
+            glowGradient.addColorStop(0, `rgba(255, 80, 60, ${glowAlpha})`);
+            glowGradient.addColorStop(1, `rgba(255, 80, 60, 0)`);
+        }
+        
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, glowSize, 0, Math.PI * 2);
+        ctx.fillStyle = glowGradient;
+        ctx.fill();
+        
+        // 绘制粒子本体
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fillStyle = particle.color + particle.alpha + ')';
         ctx.fill();
         
-        // 添加粒子的尾迹效果
-        if (particle.progress > 0) {
-            const tailLength = Math.max(5, particle.progress * 20);
+        // 添加高光
+        ctx.beginPath();
+        ctx.arc(particle.x - particle.size * 0.3, particle.y - particle.size * 0.3, particle.size * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${particle.alpha * 0.6})`;
+        ctx.fill();
+        
+        // 添加粒子的尾迹效果 - 更平滑的尾迹
+        if (particle.progress > 0 && particle.progress < 1) {
+            const tailLength = Math.max(8, particle.progress * 25);
             const dx = (particle.x - particle.startX) / tailLength;
             const dy = (particle.y - particle.startY) / tailLength;
             
-            for (let i = 1; i < tailLength; i += 2) {
-                const tailAlpha = particle.alpha * (1 - i / tailLength) * 0.5;
-                ctx.beginPath();
-                ctx.arc(
-                    particle.x - dx * i,
-                    particle.y - dy * i,
-                    particle.size * (1 - i / tailLength),
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fillStyle = particle.color + tailAlpha + ')';
-                ctx.fill();
+            // 更平滑的尾迹效果
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            
+            for (let i = 1; i < tailLength; i++) {
+                const tailX = particle.x - dx * i;
+                const tailY = particle.y - dy * i;
+                const tailAlpha = particle.alpha * Math.pow(1 - i / tailLength, 2) * 0.6;
+                
+                ctx.lineTo(tailX, tailY);
             }
+            
+            ctx.lineWidth = particle.size * 0.8;
+            ctx.strokeStyle = particle.color + particle.alpha * 0.3 + ')';
+            ctx.stroke();
         }
     });
     
@@ -998,41 +1233,72 @@ function drawNetworkStructure(network) {
                          pulseState[layerIndex][neuronIndex] : 
                          { intensity: 0 };
             
-            // 绘制脉动效果外环
+            // 绘制脉动效果外环 - 多层渐变效果
             if (pulse.intensity > 0.05) {
+                const pulseRadius = 15 + pulse.intensity * 12;
+                const outerRadius = pulseRadius + 5;
+                
+                // 外层淡光环
+                const outerGradient = ctx.createRadialGradient(x, y, pulseRadius, x, y, outerRadius);
+                outerGradient.addColorStop(0, `rgba(0, 168, 112, ${pulse.intensity * 0.2})`);
+                outerGradient.addColorStop(1, `rgba(0, 168, 112, 0)`);
+                
                 ctx.beginPath();
-                const pulseRadius = 15 + pulse.intensity * 10;
+                ctx.arc(x, y, outerRadius, 0, Math.PI * 2);
+                ctx.fillStyle = outerGradient;
+                ctx.fill();
+                
+                // 内层脉动环
+                const innerGradient = ctx.createRadialGradient(x, y, 12, x, y, pulseRadius);
+                innerGradient.addColorStop(0, `rgba(0, 168, 112, ${pulse.intensity * 0.15})`);
+                innerGradient.addColorStop(1, `rgba(0, 168, 112, ${pulse.intensity * 0.4})`);
+                
+                ctx.beginPath();
                 ctx.arc(x, y, pulseRadius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(0, 204, 153, ${pulse.intensity * 0.3})`;
+                ctx.fillStyle = innerGradient;
                 ctx.fill();
             }
             
-            // 绘制神经元背景
-            ctx.beginPath();
-            ctx.arc(x, y, 15, 0, Math.PI * 2);
-            
-            // 根据输出值和脉动状态设置颜色
+            // 绘制神经元背景 - 渐变效果
+            const neuronGradient = ctx.createRadialGradient(x - 3, y - 3, 0, x, y, 15);
             const baseIntensity = output;
             const totalIntensity = baseIntensity + pulse.intensity * 0.5;
-            ctx.fillStyle = `rgba(0, 204, 153, ${0.2 + totalIntensity * 0.8})`;
+            const fillAlpha = 0.3 + totalIntensity * 0.7;
+            
+            neuronGradient.addColorStop(0, `rgba(255, 255, 255, ${fillAlpha * 0.8})`);
+            neuronGradient.addColorStop(0.7, `rgba(0, 168, 112, ${fillAlpha * 0.9})`);
+            neuronGradient.addColorStop(1, `rgba(0, 168, 112, ${fillAlpha})`);
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 15, 0, Math.PI * 2);
+            ctx.fillStyle = neuronGradient;
             ctx.fill();
             
             // 绘制神经元边框，带脉动效果
-            ctx.strokeStyle = '#009973';
-            ctx.lineWidth = 2 + pulse.intensity * 2;
+            ctx.beginPath();
+            ctx.arc(x, y, 15, 0, Math.PI * 2);
+            ctx.strokeStyle = '#008060';
+            ctx.lineWidth = 2 + pulse.intensity * 2.5;
             ctx.stroke();
+            
+            // 内部高光效果
+            ctx.beginPath();
+            ctx.arc(x - 5, y - 5, 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + pulse.intensity * 0.3})`;
+            ctx.fill();
             
             // 显示神经元编号
             ctx.fillStyle = '#333';
-            ctx.font = '10px Arial';
+            ctx.font = '11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText(`${neuronIndex + 1}`, x, y + 3);
+            ctx.fillText(`${neuronIndex + 1}`, x, y + 4);
             
-            // 显示输出值
+            // 显示输出值 - 更好的排版
             if (output !== undefined) {
-                ctx.fillStyle = '#666';
-                ctx.font = '9px Arial';
-                ctx.fillText(output.toFixed(2), x, y + 25);
+                ctx.fillStyle = '#555';
+                ctx.font = '10px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(output.toFixed(2), x, y + 27);
             }
         });
     });
@@ -1524,7 +1790,7 @@ function createRandomParticle() {
         const speed = baseSpeed * (1 / (1 + weightAbs * 2));
         
         // 动态颜色：根据权重大小调整透明度范围
-        const colorBase = weight > 0 ? 'rgba(0, 153, 115, ' : 'rgba(204, 0, 0, ';
+        const colorBase = weight > 0 ? 'rgba(0, 168, 112, ' : 'rgba(217, 45, 32, ';
         
         // 根据权重动态调整粒子大小
         const size = Math.max(1, 2 + weightAbs * 3);
@@ -1601,7 +1867,7 @@ function updateVisualization(network) {
         
         // 绘制坐标轴标签
         ctx.fillStyle = '#666';
-        ctx.font = '11px Arial';
+        ctx.font = '11px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
         ctx.textAlign = 'center';
         
         // X轴标签
@@ -1706,7 +1972,7 @@ function updateVisualization(network) {
         } else {
             // 当没有训练历史时显示提示
             ctx.fillStyle = '#666';
-            ctx.font = '14px Arial';
+            ctx.font = '14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText('开始训练以查看误差曲线', errorCanvas.width / 2, 80);
         }
