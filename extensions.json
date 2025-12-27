@@ -399,6 +399,31 @@
             ]
         },
         {
+            "slug": "textToURL",
+            "id": "textToURL",
+            "name": "文字转URL",
+            "description": "将文字转换为可显示的URL",
+            "nameTranslations": {
+                "en": "Text to URL",
+                "zh-cn": "文字转URL"
+            },
+            "descriptionTranslations": {
+                "en": "Generate a URL that displays custom text in the browser, and parse the text from the generated URL",
+                "zh-cn": "生成可在浏览器显示自定义文字的URL，并从生成的URL中解析文字"
+            },
+            "image": "textToURL.png",
+            "by": [
+                {
+                    "name": "",
+                    "link": ""
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "textToURL"
+            ]
+        },
+        {
             "slug": "作品锁",
             "id": "projectLocking",
             "name": "作品锁",
@@ -455,8 +480,21 @@
             "samples": [
                 "音频可视化示例作品"
             ]
+        },
+        {
+            "slug": "GmyOS",
+            "id": "GmyOS",
+            "name": "GmyOS",
+            "description": "GmyOS 是一个复古 DOS 风格的 Scratch 扩展，能打开可拖动终端窗口，支持命令行、虚拟文件系统和简易汇编指令。",
+            "image": "GmyOS.png",
+            "by": [
+                {
+                    "name": "Gmy",
+                    "link": "https://space.bilibili.com/1004646811?spm_id_from=333.40164.0.0"
+                }
+            ],
+            "docs": false
         }
-
     ]
 }
 
