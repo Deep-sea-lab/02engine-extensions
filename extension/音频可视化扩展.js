@@ -1,8 +1,8 @@
 // Name: FFT音频可视化
 // ID: AudioFFT
-// Description: 音频FFT可视化+自定义音频效果
-// By：(b站)YL_YOLO
-// Version V1.1
+// Description: 音频FFT可视化+自定义音频效果+左右声道图形。与v1.1兼容
+// By：YL_YOLO
+// Version V2
 class AudioFFTExtension {
     constructor() {
         this.audioContext = null;
@@ -22,14 +22,22 @@ class AudioFFTExtension {
             maxDecibels: -10
         };
         
-        // 可视化数据
-        this.visualizationData = {
-            waveform: new Array(1024).fill(0),
-            frequencies: new Array(1024).fill(0),
-            bass: 0, mid: 0, treble: 0,
-            volume: 0
-        };
-
+    this.currentPlayingAudioId = null; // 跟踪当前正在播放的音频ID
+    
+    // 可视化数据 - 添加原始声道数据存储
+    this.visualizationData = {
+        waveform: new Array(1024).fill(0),
+        frequencies: new Array(1024).fill(0),
+        bass: 0, mid: 0, treble: 0,
+        volume: 0,
+        // 声道数据（模拟或真实）
+        leftChannel: new Array(2048).fill(0),
+        rightChannel: new Array(2048).fill(0),
+        channelLength: 2048,
+        // 新增：原始音频数据缓存
+        rawAudioData: null,
+        currentAudioPosition: 0
+    };
         this.lastUpdate = 0;
         this.updateInterval = 16;
         
@@ -52,6 +60,7 @@ color1: '#381873',
 color2: '#3A50FF',
 color3: '#FB03FF',
 blockIconURI: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAAJcEhZcwAAXFkAAFxZAStO/ZEAAAHUSURBVFiF7Zk9S8NAGMd/uXTQScgkOpQ2fgEtIriJgw34KdwdpHVwcC59W/wy4u4m1U8gDu4dpShtHMKlySUxTdpro/YHhXvJ5f73PHdPeK4GCdSshpvUp4PBsG/EtUcaly1MRRXqV1YtTEUKFasWkoYBxbOeZDDsG4W3oKhZDdexezh2jzEjxoyQdSBUlvXj3Su/LKnbXc4q7Uj7Sfk2Ml7WhSDSV9u+mJathlsCuH9tAmCyQbDu4RJz2LUQnFeWS+mDrrUJmkxUY0Qp/B5MtaBK2ooXPV67Bb8mH3j7OB9/z8VBVHcdDEwerPAzj+99AG6GXjhpWSty8f6TnlC0EIHSOot+FnK4eNYJVJe2rGZmcaDpkAT3ZlCUFJtFqLZTnPUwJFH4MPN/BeY5EHFot2BwL+YJ1nN9SZJw7B4twiLyWjSzwLjVZ5l8JZ+6ltXk5VBP3rVQFz/XxvAW35c3Ls5lwWDCk4SaNGUls0CZuS2LmQSO3c/pAGH6aWce1DQ2DQFgbZbDL6l2cKodwMt3z/fucgv6cXIlL65X276Wut2dCiwyAuBo5xLH7iGEtyoM4f0AY0lJO4BhmFS2TkPzFt6C69uteVnfsM7L77lEVynK3xDfbMCXalU9iTQAAAAASUVORK5CYII=',
+            docsURI: 'https://b23.tv/5P2xenX',
             blocks: [
                 {
                     opcode: 'addAudio',
@@ -204,6 +213,28 @@ blockIconURI: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rh
                         INDEX: { type: Scratch.ArgumentType.NUMBER, defaultValue: 0 }
                     }
                 },
+{
+    opcode: 'getLeftChannel',
+    blockType: Scratch.BlockType.REPORTER,
+    text: '左声道 [INDEX]',
+    arguments: {
+        INDEX: { type: Scratch.ArgumentType.NUMBER, defaultValue: 0 }
+    }
+},
+{
+    opcode: 'getRightChannel', 
+    blockType: Scratch.BlockType.REPORTER,
+    text: '右声道 [INDEX]',
+    arguments: {
+        INDEX: { type: Scratch.ArgumentType.NUMBER, defaultValue: 0 }
+    }
+},
+// 在getInfo()的blocks数组中添加：
+{
+    opcode: 'getChannelStats',
+    blockType: Scratch.BlockType.REPORTER,
+    text: '声道统计数据'
+},
                 {
                     opcode: 'getBassLevel',
                     blockType: Scratch.BlockType.REPORTER,
@@ -666,6 +697,7 @@ removeAudio(args) {
         };
         
         this.audioSources.set(audioId, audioState);
+        this.currentPlayingAudioId = audioId;
         
         // 播放结束时的处理
         source.onended = () => {
@@ -806,40 +838,156 @@ removeAudio(args) {
         }
     }
 
-    // 波形数据相关方法
-    updateVisualizationData() {
-        if (!this.analyser) return;
-        
-        const currentTime = Date.now();
-        if (currentTime - this.lastUpdate < this.updateInterval) return;
-        this.lastUpdate = currentTime;
-        
-        // 更新波形数据
-        const waveformData = new Uint8Array(this.analyser.frequencyBinCount);
-        this.analyser.getByteTimeDomainData(waveformData);
-        
-        for (let i = 0; i < Math.min(1024, waveformData.length); i++) {
-            this.visualizationData.waveform[i] = (waveformData[i] - 128) / 128;
-        }
-        
-        // 更新频率数据
-        const frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
-        this.analyser.getByteFrequencyData(frequencyData);
-        
-        for (let i = 0; i < Math.min(1024, frequencyData.length); i++) {
-            this.visualizationData.frequencies[i] = frequencyData[i] / 255;
-        }
-        
-        // 计算频段强度
-        const bassRange = Math.floor(frequencyData.length * 0.02);
-        const midRange = Math.floor(frequencyData.length * 0.1);
-        const trebleRange = Math.floor(frequencyData.length * 0.3);
-        
-        this.visualizationData.bass = this.calculateAverage(frequencyData, 0, bassRange);
-        this.visualizationData.mid = this.calculateAverage(frequencyData, bassRange, midRange);
-        this.visualizationData.treble = this.calculateAverage(frequencyData, midRange, trebleRange);
-        this.visualizationData.volume = this.calculateAverage(frequencyData, 0, frequencyData.length);
+// 波形数据相关方法
+updateVisualizationData() {
+    if (!this.analyser) return;
+    
+    const currentTime = Date.now();
+    if (currentTime - this.lastUpdate < this.updateInterval) return;
+    this.lastUpdate = currentTime;
+    
+    // 更新波形数据
+    const waveformData = new Uint8Array(this.analyser.frequencyBinCount);
+    this.analyser.getByteTimeDomainData(waveformData);
+    
+    for (let i = 0; i < Math.min(1024, waveformData.length); i++) {
+        this.visualizationData.waveform[i] = (waveformData[i] - 128) / 128;
     }
+    
+    // 更新频率数据
+    const frequencyData = new Uint8Array(this.analyser.frequencyBinCount);
+    this.analyser.getByteFrequencyData(frequencyData);
+    
+    for (let i = 0; i < Math.min(1024, frequencyData.length); i++) {
+        this.visualizationData.frequencies[i] = frequencyData[i] / 255;
+    }
+    
+    // 计算频段强度
+    const bassRange = Math.floor(frequencyData.length * 0.02);
+    const midRange = Math.floor(frequencyData.length * 0.1);
+    const trebleRange = Math.floor(frequencyData.length * 0.3);
+    
+    this.visualizationData.bass = this.calculateAverage(frequencyData, 0, bassRange);
+    this.visualizationData.mid = this.calculateAverage(frequencyData, bassRange, midRange);
+    this.visualizationData.treble = this.calculateAverage(frequencyData, midRange, trebleRange);
+    this.visualizationData.volume = this.calculateAverage(frequencyData, 0, frequencyData.length);
+    this.updateChannelDataFromCurrentAudio();
+}
+
+// 从当前播放的音频获取声道数据
+// 从所有播放的音频获取声道数据并混合
+updateChannelDataFromCurrentAudio() {
+    // 清空声道数据
+    for (let i = 0; i < 2048; i++) {
+        this.visualizationData.leftChannel[i] = 0;
+        this.visualizationData.rightChannel[i] = 0;
+    }
+    
+    let hasPlayingAudio = false;
+    let playingCount = 0;
+    
+    // 遍历所有音频源
+    for (const [audioId, audioState] of this.audioSources) {
+        if (!audioState || !audioState.isPlaying || audioState.isPaused) {
+            continue;
+        }
+        
+        const audioBuffer = this.audioBuffers.get(audioId);
+        if (!audioBuffer) {
+            continue;
+        }
+        
+        hasPlayingAudio = true;
+        playingCount++;
+        
+        // 获取当前播放位置
+        const currentTime = this.getCurrentTime({ ID: audioId });
+        const sampleRate = audioBuffer.sampleRate;
+        const startSample = Math.floor(currentTime * sampleRate);
+        
+        // 获取声道数据
+        const leftData = audioBuffer.getChannelData(0);
+        const rightData = audioBuffer.numberOfChannels > 1 ? 
+                         audioBuffer.getChannelData(1) : leftData;
+        
+        // 填充2048个轨道的声道数据并混合
+        const dataLength = Math.min(2048, audioBuffer.length - startSample);
+        
+        for (let i = 0; i < dataLength; i++) {
+            // 混合左声道数据（直接叠加）
+            this.visualizationData.leftChannel[i] += leftData[startSample + i];
+            
+            // 混合右声道数据
+            this.visualizationData.rightChannel[i] += rightData[startSample + i];
+        }
+    }
+    
+    // 如果没有音频在播放，使用模拟数据
+    if (!hasPlayingAudio) {
+        this.generateSimulatedChannelData();
+    } else {
+        // 检查并记录数据范围
+        let maxLeft = 0;
+        let maxRight = 0;
+        for (let i = 0; i < 2048; i++) {
+            maxLeft = Math.max(maxLeft, Math.abs(this.visualizationData.leftChannel[i]));
+            maxRight = Math.max(maxRight, Math.abs(this.visualizationData.rightChannel[i]));
+        }
+        
+        console.log(`声道数据范围: 左声道最大绝对值=${maxLeft}, 右声道最大绝对值=${maxRight}`);
+        
+        // 如果有多个音频，需要归一化防止削波
+        if (playingCount > 1 && maxLeft > 0.1) {
+            console.log(`检测到${playingCount}个音频同时播放，应用归一化`);
+            const normalizationFactor = 1.0 / playingCount;
+            for (let i = 0; i < 2048; i++) {
+                this.visualizationData.leftChannel[i] *= normalizationFactor;
+                this.visualizationData.rightChannel[i] *= normalizationFactor;
+            }
+        }
+        
+        // 更新原始数据引用
+        this.visualizationData.rawAudioData = {
+            left: this.visualizationData.leftChannel,
+            right: this.visualizationData.rightChannel,
+            position: 0,
+            sampleRate: 44100,
+            isMixed: playingCount > 1,
+            playingCount: playingCount
+        };
+        this.visualizationData.currentAudioPosition = 0;
+    }
+}
+
+generateSimulatedChannelData() {
+    const time = Date.now() / 1000;
+    
+    for (let i = 0; i < 2048; i++) {
+        const t = i / 2048 * 2 * Math.PI;
+        
+        // 左声道：使用多个正弦波组合
+        this.visualizationData.leftChannel[i] = 
+            0.5 * Math.sin(t * 2 + time) * this.visualizationData.volume +
+            0.3 * Math.sin(t * 5 + time * 2) * this.visualizationData.mid +
+            0.2 * Math.sin(t * 10 + time * 3) * this.visualizationData.treble;
+        
+        // 右声道：类似的模式但稍有不同，创造立体声效果
+        this.visualizationData.rightChannel[i] = 
+            0.5 * Math.cos(t * 2 + time + 0.5) * this.visualizationData.volume +
+            0.3 * Math.cos(t * 5 + time * 2 + 0.3) * this.visualizationData.mid +
+            0.2 * Math.cos(t * 10 + time * 3 + 0.7) * this.visualizationData.treble;
+    }
+    
+    // 更新原始数据引用
+    this.visualizationData.rawAudioData = {
+        left: this.visualizationData.leftChannel,
+        right: this.visualizationData.rightChannel,
+        position: 0,
+        sampleRate: 44100,
+        isMixed: false,
+        isSimulated: true
+    };
+}
 
     calculateAverage(data, start, end) {
         let sum = 0;
@@ -1110,6 +1258,7 @@ getActiveEffects(args) {
         
         // 关闭按钮
         html += '<button onclick="document.getElementById(\'audioInfoPanel\').remove()" style="margin-top:15px; padding:8px 15px; background:#f44336; color:white; border:none; border-radius:4px; cursor:pointer;">关闭面板</button>';
+        // 在showAudioInfo方法中添加以下信息：
         
         panel.innerHTML = html;
         document.body.appendChild(panel);
@@ -1385,6 +1534,55 @@ setFlanger(args) {
     const flanger = this.createFlanger(speed, depth, delay, feedback);
     this.effectProcessors.get(audioId).push(flanger.input);
     this.applyEffects(audioId, this.effectProcessors.get(audioId));
+}
+// 获取左声道数据
+getLeftChannel(args) {
+    const index = Math.max(0, Math.min(2047, Math.floor(Scratch.Cast.toNumber(args.INDEX))));
+    return this.visualizationData.leftChannel[index] || 0;
+}
+
+// 获取右声道数据
+getRightChannel(args) {
+    const index = Math.max(0, Math.min(2047, Math.floor(Scratch.Cast.toNumber(args.INDEX))));
+    return this.visualizationData.rightChannel[index] || 0;
+}
+
+// 获取当前正在播放的音频ID
+getCurrentPlayingAudioId() {
+    for (const [audioId, audioState] of this.audioSources) {
+        if (audioState && audioState.isPlaying && !audioState.isPaused) {
+            return audioId;
+        }
+    }
+    return null;
+}
+// 实现声道统计
+getChannelStats() {
+    let minL = 1, maxL = -1, avgL = 0;
+    let minR = 1, maxR = -1, avgR = 0;
+    let count = 0;
+    
+    for (let i = 0; i < 2048; i++) {
+        const valL = this.visualizationData.leftChannel[i];
+        const valR = this.visualizationData.rightChannel[i];
+        
+        if (valL !== 0 || valR !== 0) {
+            minL = Math.min(minL, valL);
+            maxL = Math.max(maxL, valL);
+            minR = Math.min(minR, valR);
+            maxR = Math.max(maxR, valR);
+            avgL += valL;
+            avgR += valR;
+            count++;
+        }
+    }
+    
+    if (count > 0) {
+        avgL /= count;
+        avgR /= count;
+    }
+    
+    return `左声道: 最小=${minL.toFixed(4)}, 最大=${maxL.toFixed(4)}, 平均=${avgL.toFixed(4)} | 右声道: 最小=${minR.toFixed(4)}, 最大=${maxR.toFixed(4)}, 平均=${avgR.toFixed(4)}`;
 }
 }
 
