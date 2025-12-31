@@ -414,8 +414,8 @@
             "image": "textToURL.png",
             "by": [
                 {
-                    "name": "",
-                    "link": ""
+                    "name": "Turboratch",
+                    "link": "https://space.bilibili.com/3546662593104166"
                 }
             ],
             "docs": false,
@@ -494,6 +494,40 @@
                 }
             ],
             "docs": false
+        },
+        {
+            "slug": "简_艺术字",
+            "id": "简_艺术字",
+            "name": "简_艺术字",
+            "description": "简单的艺术字显示扩展",
+            "image": "简_艺术字.png",
+            "by": [
+                {
+                    "name": "YL_YOLO",
+                    "link": "https://space.bilibili.com/1444083784?spm_id_from=333.337.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "简_艺术字"
+            ]
+        },
+        {
+            "slug": "移动端按键映射",
+            "id": "移动端按键映射",
+            "name": "移动端按键映射",
+            "description": "简单的艺术字显示扩展",
+            "image": "移动端按键映射.png",
+            "by": [
+                {
+                    "name": "YL_YOLO",
+                    "link": "https://space.bilibili.com/1444083784?spm_id_from=333.337.0.0"
+                }
+            ],
+            "docs": false,
+            "samples": [
+                "移动端按键映射"
+            ]
         }
     ]
 }
