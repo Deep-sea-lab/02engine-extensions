@@ -19,8 +19,8 @@
             "docs": false
         },
         {
-            "slug": "Babylon3D",
-            "id": "Babylon3D",
+            "slug": "babylon3d",
+            "id": "babylon3d",
             "name": "Babylon3D",
             "description": "Best scratch 3D engine.Based on babylonjs.",
             "image": "babylon3d.png",
@@ -33,8 +33,8 @@
             "docs": false
         },
         {
-            "slug": "TensorFlow",
-            "id": "TensorFlow",
+            "slug": "tensorflow",
+            "id": "tensorflow",
             "name": "TensorFlow",
             "description": "Scratch neural networks engine.Based on tensorflowjs.",
             "image": "tensorflow.png",
@@ -47,8 +47,8 @@
             "docs": false
         },
         {
-            "slug": "Transformers",
-            "id": "Transformers",
+            "slug": "transformers",
+            "id": "transformers",
             "name": "Transformers",
             "description": "Transformers.js for scratch.Based on huggingface transformers.js.",
             "image": "transformers.png",
