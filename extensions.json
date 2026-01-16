@@ -1,6 +1,66 @@
 {
     "extensions": [
         {
+            "slug": "kylin",
+            "id": "kylin",
+            "name": "kylin",
+            "description": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked.",
+            "descriptionTranslations": {
+                "zh-cn": "Kylin 是业界第一个用于 Scratch (Turbowarp) 的混淆器，允许你 加密 你的项目，来避免它被盗或被破解。",
+                "en": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked."
+            },
+            "image": "kylin.png",
+            "by": [
+                {
+                    "name": "FurryR",
+                    "link": "https://github.com/FurryR"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "Babylon3D",
+            "id": "Babylon3D",
+            "name": "Babylon3D",
+            "description": "Best scratch 3D engine.Based on babylonjs.",
+            "image": "babylon3d.png",
+            "by": [
+                {
+                    "name": "PPN-design",
+                    "link": "https://github.com/DDguan2010"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "TensorFlow",
+            "id": "TensorFlow",
+            "name": "TensorFlow",
+            "description": "Scratch neural networks engine.Based on tensorflowjs.",
+            "image": "tensorflow.png",
+            "by": [
+                {
+                    "name": "PPN-design",
+                    "link": "https://github.com/DDguan2010"
+                }
+            ],
+            "docs": false
+        },
+        {
+            "slug": "Transformers",
+            "id": "Transformers",
+            "name": "Transformers",
+            "description": "Transformers.js for scratch.Based on huggingface transformers.js.",
+            "image": "transformers.png",
+            "by": [
+                {
+                    "name": "PPN-design",
+                    "link": "https://github.com/DDguan2010"
+                }
+            ],
+            "docs": false
+        },
+        {
             "slug": "cybertoolbox",
             "id": "toolbox",
             "name": "Cybertoolbox",
@@ -18,24 +78,6 @@
                 {
                     "name": "Cyberexplorer",
                     "link": "https://cyberneko.cn/about"
-                }
-            ],
-            "docs": false
-        },
-        {
-            "slug": "kylin",
-            "id": "kylin",
-            "name": "kylin",
-            "description": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked.",
-            "descriptionTranslations": {
-                "zh-cn": "Kylin 是业界第一个用于 Scratch (Turbowarp) 的混淆器，允许你 加密 你的项目，来避免它被盗或被破解。",
-                "en": "Kylin is the first-ever obfuscator for Scratch (Turbowarp) that enables you to encrypt your project, preventing it from being stolen or hacked."
-            },
-            "image": "kylin.png",
-            "by": [
-                {
-                    "name": "FurryR",
-                    "link": "https://github.com/FurryR"
                 }
             ],
             "docs": false
