@@ -13,7 +13,7 @@
     let loadError = null;
     
     // TensorFlow.js CDN URL
-    const TF_CDN_URL = 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js';
+    const TF_CDN_URL = 'https://extensions.02engine.02studio.xyz/attachment/tensorflow.js';
     
     // 模型存储（模型ID到模型对象的映射）
     let models = {};
