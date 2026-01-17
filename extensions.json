@@ -152,7 +152,7 @@
             ]
         },
         {
-            "slug": "图像模糊",
+            "slug": "KMSBLUR",
             "id": "KMSBLUR",
             "name": "𝙆𝙢𝙨 𝘽𝙡𝙪𝙧",
             "description": "使角色迅速模糊.",
