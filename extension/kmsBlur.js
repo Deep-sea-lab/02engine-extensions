@@ -51,7 +51,7 @@
         getInfo(){
             return {
                 name: "𝙆𝙢𝙨 𝘽𝙡𝙪𝙧",
-                id: "KMSBLUR",
+                id: "kmsBlur",
                 color1:'#668cff',
                 color2:'#3d6dff',
                 color3:'#7c9dff',
